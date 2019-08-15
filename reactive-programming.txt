@@ -1,0 +1,26 @@
+Conceitos:
+
+Reactive Programming: A idéia de programação reativa é simples: Um evento acontece e os que estão interessados são notificados 
+e reagem a ele. A idéia é baseada num padrão bem comum na web chamado de observer. Nesse padrão, vamos ter um objeto que é o 
+foco de interesse e teremos outros objetos interessados em alguma mudança nesse primeiro objeto, que são os listeners. Os listeners
+se inscrevem esperando uma mudança, ou melhor um evento. Quando o evento acontece, o listener que é o interessado executa uma ação. 
+Essa é a idéia base.
+
+Em reactive programming, os eventos vem em forma de streams, ou melhor dizendo, em uma sequencia de eventos que podem ser modificados 
+ou até transformados numa nova cadêia de eventos. Então, cada evento que acontece gera uma notificação aos objetos interessados. Uma 
+sequencia de eventos junto com a notificação de interessados. Reactive Programming é a combinação de dois padrões: iterator porque vai 
+de item a item na stream; mais observer porque notifica os listeners interessados.
+
+Em Angular, várias partes do framework são implementadas em cima desse conceito. Por exemplo:
+- Ao realizar uma chamada HTTP ao backend, parte da aplicação vai se inscrever e esperar pela resposta, que é o evento. Quando o evento 
+acontecer, ou seja, quando a resposta chegar, a sua aplicação reage a ela e extrai os dados necessários para preencher um componente ou 
+uma informação na tela.
+- Um outro exemplo que usa reactive programming dentro do Angular é quando desejamos saber quando os parâmetros das rotas mudam, mesmo 
+padrão, você se inscreve e espera pela resposta.
+
+A biblioteca que o angular usa para reactive programming é a RXJS, chamada de reactive extensions. No RXJS o objeto principal é o 
+Observable. No dia a dia, talvez a gente nem precise criar objetos do tipo Observable, porque na maioria dos casos a aplicação estará 
+ouvindo eventos produzidos pelo Angular. O Observable possui uma série de funções ou operadores para inscrição e manipulação de eventos, 
+mas existe uma similaridade de funções com outro tipo bem conhecido, que é o array. Um exemplo:
+
+
