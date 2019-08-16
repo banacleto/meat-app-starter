@@ -83,3 +83,55 @@ para isso essa classe deve ser configurada como um provider da aplicação do me
 erros é utilizar o operador catch() de Observable. Sempre que a gente tem um erro numa sequencia de streams, o Observable vai ser fechado. Então, na hora de tratar
 o erro, teremos uma chance de logar o erro mas para isso vamos ter que devolver um outro Observable, dai decidimos se queremos trocar por uma outra sequencia ou 
 se queremos simplemente disparar um erro.
+
+# Parametrizando as Rotas
+Nos tópicos passados...
+
+export const ROUTES: Routes = [ {path: 'restaurant/:id', component: RestaurantComponent} ]
+<!-- passando um parâmetro -->
+<a [routerLink]=[ '/restaurant', 'restaurant.id' ]>Bakery</a>
+
+Nós temos duas formas de se obter o valor de um parâmetro: usando o que chamamos de snapshot , que é uma fotografia dos parâmetros no momento que a gente
+pedir e a outra é se inscrevendo na rota e escutando a mudança de parâmetros.
+
+No primeiro caso:
+export class MyComponent implements OnInit {
+    myObj: any
+
+    // O objeto route representa a rota ativa no momento
+    constructor(private route: ActivatedRoute) {}
+
+    ngOnInit() {
+        const id = this.route.snapshot.params['id'] // Obtendo o parametro 'id' através do snapshot
+        this.myObj = // ... uma vez de posse do valor, o backend será consultado para obter a informação baseado no 'id'
+    }
+}
+
+O snapshot é muito útil quando o componente não se preocupa se a rota vai mudar e o nosso componente sai de cena e volta depois, sendo destruido e configurado
+novamente. Esse é o caso mais comum e provavelmente o que mais vamos fazer em uma aplicação Angular. Mas, há casos em que o componente ainda vai estar na
+tela e precisa se atualizar sempre que um item é acionado como no exemplo de meche detalhe.
+
+Sempre que escolher um item numa lista, o detalhe desse item será exibido. Se clicarmos em outro item, o detalhe precisa mostrar a nova informação, sem sair
+de cena. Se observarmos bem, ambos os componentes de lista e detalhes estão ativos na tela e o componente detalhe precisa se atualizar a cada clique. Esse
+é o segundo cenário.
+
+No segundo caso:
+export class MyComponent implements OnInit {
+    myObj: any
+
+    // O objeto route representa a rota ativa no momento
+    constructor(private route: ActivatedRoute) {}
+
+    ngOnInit() {
+        // O componente se inscreve para receber as notificações de mudanças de parametros nas rotas. 
+        // No exemplo, veremos que parte da rota muda: os ids 1, 2 e 3. Ao invẽs de invés de 'snapshot' 
+        // usamos o método 'subscribe' que vai notificar sempre que uma rota mudar. Neste caso, bastaria
+        // ir buscar um novo dado assim que a notificação for feita.
+        this.route.params.subscribe(params => {
+            const id = params['id']
+            this.myObj = // ... obter os dados baseados no id
+        })
+    }
+}
+
+Essas são as duas formas de obter parâmetros em angular.
