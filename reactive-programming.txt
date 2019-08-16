@@ -1,42 +1,73 @@
 Conceitos:
 
-Reactive Programming: A idéia de programação reativa é simples: Um evento acontece e os que estão interessados são notificados 
-e reagem a ele. A idéia é baseada num padrão bem comum na web chamado de observer. Nesse padrão, vamos ter um objeto que é o 
-foco de interesse e teremos outros objetos interessados em alguma mudança nesse primeiro objeto, que são os listeners. Os 
-listeners se inscrevem esperando uma mudança, ou melhor um evento. Quando o evento acontece, o listener que é o interessado 
-executa uma ação. Essa é a idéia base.
+Reactive Programming: A idéia de programação reativa é simples: Um evento acontece e os que estão interessados são notificados e reagem a ele. A idéia é baseada 
+num padrão bem comum na web chamado de observer. Nesse padrão, vamos ter um objeto que é o foco de interesse e teremos outros objetos interessados em alguma 
+mudança nesse primeiro objeto, que são os listeners. Os listeners se inscrevem esperando uma mudança, ou melhor um evento. Quando o evento acontece, o listener 
+que é o interessado executa uma ação. Essa é a idéia base.
 
-Em reactive programming, os eventos vem em forma de streams, ou melhor dizendo, em uma sequencia de eventos que podem ser 
-modificados ou até transformados numa nova cadêia de eventos. Então, cada evento que acontece gera uma notificação aos objetos 
-interessados. Uma sequencia de eventos junto com a notificação de interessados. Reactive Programming é a combinação de dois 
-padrões: iterator porque vai de item a item na stream; mais observer porque notifica os listeners interessados.
+Em reactive programming, os eventos vem em forma de streams, ou melhor dizendo, em uma sequencia de eventos que podem ser modificados ou até transformados numa 
+nova cadêia de eventos. Então, cada evento que acontece gera uma notificação aos objetos interessados. Uma sequencia de eventos junto com a notificação de 
+interessados. Reactive Programming é a combinação de dois padrões: iterator porque vai de item a item na stream; mais observer porque notifica os listeners 
+interessados.
 
 Em Angular, várias partes do framework são implementadas em cima desse conceito. Por exemplo:
-- Ao realizar uma chamada HTTP ao backend, parte da aplicação vai se inscrever e esperar pela resposta, que é o evento. Quando o 
-evento acontecer, ou seja, quando a resposta chegar, a sua aplicação reage a ela e extrai os dados necessários para preencher um 
-componente ou uma informação na tela.
-- Um outro exemplo que usa reactive programming dentro do Angular é quando desejamos saber quando os parâmetros das rotas mudam, 
-mesmo padrão, você se inscreve e espera pela resposta.
+- Ao realizar uma chamada HTTP ao backend, parte da aplicação vai se inscrever e esperar pela resposta, que é o evento. Quando o evento acontecer, ou seja, 
+quando a resposta chegar, a sua aplicação reage a ela e extrai os dados necessários para preencher um componente ou uma informação na tela.
+- Um outro exemplo que usa reactive programming dentro do Angular é quando desejamos saber quando os parâmetros das rotas mudam, mesmo padrão, você se inscreve 
+e espera pela resposta.
 
-A biblioteca que o angular usa para reactive programming é a RXJS, chamada de reactive extensions. No RXJS o objeto principal é o 
-Observable. No dia a dia, talvez a gente nem precise criar objetos do tipo Observable, porque na maioria dos casos a aplicação 
-estará ouvindo eventos produzidos pelo Angular. O Observable possui uma série de funções ou operadores para inscrição e manipulação 
-de eventos, mas existe uma similaridade de funções com outro tipo bem conhecido, que é o array. 
-No exemplo abaixo, temos métodos comuns a ambos:
-
-
+A biblioteca que o angular usa para reactive programming é a RXJS, chamada de reactive extensions. No RXJS o objeto principal é o Observable. No dia a dia, 
+talvez a gente nem precise criar objetos do tipo Observable, porque na maioria dos casos a aplicação estará ouvindo eventos produzidos pelo Angular. O 
+Observable possui uma série de funções ou operadores para inscrição e manipulação de eventos, mas existe uma similaridade de funções com outro tipo bem 
+conhecido, que é o array. No exemplo abaixo, temos métodos comuns a ambos:
 [1, 2, 3, 4, 5]
-    .map(x => x+3)
-    .filter(x => x%2 == 0)
-    .forEach(x => console.log(x)) // 4, 6, 8
+    .map( x => x+3 )
+    .filter( x => x%2 == 0 )
+    .forEach( x => console.log(x) ) // 4, 6, 8
 
-Observable.from( [1, 2, 3, 4, 5] ) ----------------------------------------- STREAM
-    .map(x => x+3) --------------------------------------------------------- map, serve para tranformar os itens (TRANSFORMAÇÃO)
-    .filter(x => x%2 == 0) ------------------------------------------------- filter, serve para filtrá-los
-    .subscribe(x => console.log(x)) // 4, 6, 8 ----------------------------- similar ao forEach, pois cada item do array será 
-                                                                             passado pra função do argumento do método subscribe.
+Observable.from( [1, 2, 3, 4, 5] ) ----------------------------------------- (STREAM*)
+    .map( x => x+3 ) --------------------------------------------------------- map, serve para tranformar os itens (TRANSFORMAÇÃO*)
+    .filter( x => x%2 == 0 ) ------------------------------------------------- filter, serve para filtrá-los
+    .subscribe( x => console.log(x) ) // 4, 6, 8 ----------------------------- similar ao forEach, pois cada item do array será 
+                                                                             passado pra função do argumento do método subscribe (LISTENER*)
+Podemos nos perguntar, por que não utilizar Promisses? Uma das grandes diferenças entre Observable e Promisses é que Observables continuam disparando eventos
+até que sejam explicitamente fechados. Já Promisses são consideradas resolvidas após a execução do primeiro evento. Isso dá um pouco mais de flexibilidade ao
+Observable, como por exemplo, a capacidade de utilizar WebSockets.
+    Observable => Multiplos eventos
+    Promisses => Um evento
 
+Se formos olhar, esse exemplo da API HTTP do Angular, vamos observar que os métodos retornam Observable<Response>, um dos objetos principais do RXJS. Na maioria
+dos casos vamos transformar a resposta e colher o dado; a requisição é feita sempre depois que a aplicação se inscreve usando o método subscribe.
+this.http.get( '/url' )
+    .map( response => response.json() )
+    .subscribe( data => this.mydata = data )
 
+A RXJS permite coisas bem interessantes, como facilmente refazer as chamadas HTTP com o método retry() de Observable (I):
+this.http.get( '/url' )
+    .retry(  2)
+    .map( response => response.json() )
+    .subscribe( data => this.mydata = data )
 
+Ou ainda fazer múltiplos mapeamentos até que a resposta seja da forma esperada (II).
+this.http.get( '/url', JSON.stringfy(myData) )
+    .map( response => response.json() )
+    .map( response => result.id )
+    .subscribe( data => this.mydata = data )
 
+Quando um objeto se inscreve em um Observable (subscribe), será necessário remover a inscrição posterior (unsubscribe) para evitar memory leaks. Mesmo que um 
+componente saia de cena, ou seja, a página muda e o componente é descartado, o listener que foi inscrito pode continuar sendo chamado. Então, nesses casos é 
+importante realizar o cancelamento da inscrição (unsubscribe). 
+O Angular trás algo positivo: os Observables retornados pela API HTTP, pelos parâmetros do Router ou pelo Pipe Async não precisam de cancelamento de inscrição. 
+Geralmente, quem vai acessar a API HTTP do Angular são os serviços da aplicação. Então é uma boa prática realizar um tratamento de erro básico nessa camada 
+usando o operador 'catch'; depois de um erro o Observable vai parar de enviar eventos. O método 'catch' recebe o objeto de um erro e tem que devolver um outro 
+Observable. No exemplo abaixo, um Observable que propaga um erro pra cima:
 
+save( myData ) {
+    return this.http.post( '/url', JSON.stringfy(myData) )
+        .map( response => response.json() )
+        .map( response => result.id )
+        catch( error => {
+            console.log( error )
+            Observable.throw( `Error posting ${ myData }` )
+        })
+}
