@@ -1,5 +1,4 @@
-Conceitos:
-
+Conceitos de Reactive Programming
 Reactive Programming: A idéia de programação reativa é simples: Um evento acontece e os que estão interessados são notificados e reagem a ele. A idéia é baseada 
 num padrão bem comum na web chamado de observer. Nesse padrão, vamos ter um objeto que é o foco de interesse e teremos outros objetos interessados em alguma 
 mudança nesse primeiro objeto, que são os listeners. Os listeners se inscrevem esperando uma mudança, ou melhor um evento. Quando o evento acontece, o listener 
@@ -71,3 +70,8 @@ save( myData ) {
             Observable.throw( `Error posting ${ myData }` )
         })
 }
+
+
+Configurando a API de Backend (json-server)
+$ npm install -g json-server
+& json-server db.json
