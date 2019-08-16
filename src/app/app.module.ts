@@ -13,6 +13,7 @@ import { RestaurantDetailComponent } from './restaurant-detail/restaurant-detail
 import { MenuComponent } from './restaurant-detail/menu/menu.component';
 import { MenuItemComponent } from './restaurant-detail/menu-item/menu-item.component';
 import { ShoppingCartComponent } from './restaurant-detail/shopping-cart/shopping-cart.component';
+import { RestaurantService } from './restaurants/restaurants.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,7 @@ import { ShoppingCartComponent } from './restaurant-detail/shopping-cart/shoppin
     HttpModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [RestaurantService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

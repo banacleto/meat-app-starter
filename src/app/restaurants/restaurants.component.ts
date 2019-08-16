@@ -20,7 +20,7 @@ import { RestaurantService } from './restaurants.service';
    * Exemplos de serviços disponíveis: Title, Http e Router
    * 
    */
-  providers: [RestaurantService]
+  //providers: [RestaurantService]
 })
 export class RestaurantsComponent implements OnInit {
 

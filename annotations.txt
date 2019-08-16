@@ -135,3 +135,6 @@ export class MyComponent implements OnInit {
 }
 
 Essas são as duas formas de obter parâmetros em angular.
+
+
+# Serviço HTTP para o Detalhe do Restaurante
