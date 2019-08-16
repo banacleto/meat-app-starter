@@ -1,4 +1,4 @@
-Conceitos de Reactive Programming
+# Conceitos de Reactive Programming
 Reactive Programming: A idéia de programação reativa é simples: Um evento acontece e os que estão interessados são notificados e reagem a ele. A idéia é baseada 
 num padrão bem comum na web chamado de observer. Nesse padrão, vamos ter um objeto que é o foco de interesse e teremos outros objetos interessados em alguma 
 mudança nesse primeiro objeto, que são os listeners. Os listeners se inscrevem esperando uma mudança, ou melhor um evento. Quando o evento acontece, o listener 
@@ -72,6 +72,14 @@ save( myData ) {
 }
 
 
-Configurando a API de Backend (json-server)
+# Configurando a API de Backend (json-server)
 $ npm install -g json-server
 & json-server db.json
+
+
+# Tratamento de Erros com o Operador Catch
+Existem duas formas de tratar erros no Angular: uma é implementando a interface ErroHandler e criando uma classe que faz um tratamento de erro global, 
+para isso essa classe deve ser configurada como um provider da aplicação do mesmo jeito que foi declarado o RestaurantService. A outra forma de tratamento de 
+erros é utilizar o operador catch() de Observable. Sempre que a gente tem um erro numa sequencia de streams, o Observable vai ser fechado. Então, na hora de tratar
+o erro, teremos uma chance de logar o erro mas para isso vamos ter que devolver um outro Observable, dai decidimos se queremos trocar por uma outra sequencia ou 
+se queremos simplemente disparar um erro.
