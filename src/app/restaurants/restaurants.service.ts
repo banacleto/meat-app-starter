@@ -1,30 +1,32 @@
-import { Restaurant } from "./restaurant/restaurant.model";
-import { TitleCasePipe } from "@angular/common";
+import { Injectable } from "@angular/core";
+import { Http } from "@angular/http";
 
+import { Observable } from "rxjs/Observable"
+import "rxjs/add/operator/map"
+
+import { Restaurant } from "./restaurant/restaurant.model";
+import { MEAT_API } from "./../app.api";
+
+/**
+ * Assim como a gente criou o serviço 'RestaurantService' e injetou dentro do componente 'RestaurantsComponent',
+ * o Angular também fornece alguns serviços em que a gente pode injetar nos nossos componentes e também nossos
+ * serviços. Um deles é o serviço Http. Para uma classe de serviço receber um outro serviço via injeção de dependência,
+ * a gente precisa marca-la com o decorator @Injectable(). Não precisamos incluir o decorator @Injectable se a nossa
+ * classe não vai acessar nenhum serviço Http. Mas nesse caso, como a gente vai receber um serviço, precisamos marcar
+ * como @Injectable(). Precisamos importar o decorator @Injectable(), importar o serviço Http do módulo Http do Angular.
+ * 
+ */
+@Injectable()
 export class RestaurantService {
 
-    rests: Restaurant[] = [
-        {
-          id: "bread-bakerys",
-          name: "Bread & Bakery",
-          category: "Bakery",
-          deliveryEstimate: "25m",
-          rating: 4.9,
-          imagePath: "assets/img/restaurants/breadbakery.png"
-        },
-        {
-          id: "burger-house",
-          name: "Burger House",
-          category: "Hamburgers",
-          deliveryEstimate: "100m",
-          rating: 3.5,
-          imagePath: "assets/img/restaurants/burgerhouse.png"
-        }
-      ]
+  // Recebendo a injeção do serviço http
+  constructor(private http: Http) { }
 
-    constructor() { }
-
-    restaurants(): Restaurant[] {
-        return this.rests
-    }
+  // Consumindo a API mockada do json-server
+  restaurants(): Observable<Restaurant[]> {
+    return this.http.get(`${MEAT_API}/restaurants`) // até aqui o retorno é do tipo Observable<Response> (resposta crua: status, mensagens ok/erro, corpo...)
+      .map(response => response.json()) // transformando (map) o objeto Observable<Response> num array de restaurantes (Observable<Restaurant[]>)
+      // A chamada http não será feita nesse momento, precisamos primeiro fazer um subscribe. Apenas depois que fizermos um subscribe é que a 
+      // requisição será feita. Dessa forma, o subscribe será feito no componente 'RestaurantsComponent'.
+  }
 }
