@@ -1,6 +1,7 @@
 <!-- INICIO DO CONTEUDO -->
-<div class="col-xs-12 col-sm-6" *ngFor="let review of reviews | async"> <!--async substitui a chamada do método subscribe no componente-->
-
+<div class="col-xs-12 col-sm-6" *ngFor="let review of reviews | async">
+  <!--async substitui a chamada do método subscribe no componente-->
+  <!--já faz uma chamada ao método subscribe do Observable que ele se inscreve-->
   <div class="box box-solid">
     <div class="box-header with-border">
       <span class="review-score pull-right"><i class="fa fa-star"></i>{{review.rating}}</span>
