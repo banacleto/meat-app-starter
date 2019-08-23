@@ -3,10 +3,11 @@
 
   <!--novamente explicando o que o pipe async faz...-->
   <!--ele se inscreve no menu, que é um Observable, vai pegar os itens, passando para ngFor e irá iterar sobre os dados-->
-  <mt-menu-item *ngFor="let item of menu | async" [menuItem]="item" (add)="addMenuItem($event)"></mt-menu-item>
+  <mt-menu-item *ngFor="let item of menu | async" [menuItem]="item" (add)="shoppingCart.addItem($event)"></mt-menu-item>
 
 </div>
 <div class="col-md-3 col-xs-12">
-  <mt-shopping-cart></mt-shopping-cart>
+  <!--criando uma template variable #shoppingCart-->
+  <mt-shopping-cart #shoppingCart></mt-shopping-cart>
 </div>
 <!-- FIM DO MENU -->
