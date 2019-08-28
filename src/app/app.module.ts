@@ -36,7 +36,18 @@ import { ShoppingCartService } from './restaurant-detail/shopping-cart/shopping-
     HttpModule,
     AppRoutingModule
   ],
-  providers: [RestaurantService, ShoppingCartService, { provide: LOCALE_ID, useValue: 'pt-BR' }],
+  providers: [
+    RestaurantService,
+    ShoppingCartService, 
+    /**
+     * Este tipo de notação é um modelo extendido da declaração de providers acima. Quando usamos RestaurantServive, 
+     * na verdade estamos dizendo: { provide: RestaurantService, useClass: RestaurantService }
+     * Mas para não ficar muito verboso, usamos a sintaxe reduzida. O que estamos fazendo com o LOCALE_ID é uma
+     * sintaxe mais extendida, onde sempre que um componente pedir o token LOCALE_ID, ele vai receber o valor 'pt-BR'.
+     * Observação: ver os imports nos arquivos package.json e polyfills.js
+     */
+    { provide: LOCALE_ID, useValue: 'pt-BR' }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
