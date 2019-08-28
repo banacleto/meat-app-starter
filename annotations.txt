@@ -137,4 +137,52 @@ export class MyComponent implements OnInit {
 Essas são as duas formas de obter parâmetros em angular.
 
 
-# Serviço HTTP para o Detalhe do Restaurante
+# O que são Template forms
+Forma declarativa de configurar formulários no template do componente. Com Template Forms usamos a diretiva
+'ngModel' nos inputs que devem ser controlados pelo framework, muito similar ao AngularJS. Sempre que declaramos
+um form num template, o Angular associa a diretiva 'ngForm' de forma implícita. Com essa diretiva podemos determinar
+a validade do form, o seu valor, e outros estados como dirty, pristine e touched.
+<form> --------------------------------------------------------------------------- ngForm
+    <input type="text" name="name" />
+</form>
+
+Com Template Forms é preciso usar a diretiva 'ngModel', lembrando que o atributo 'name' será obrigatório.
+<form>
+    <input type="text" name="name" ngModel />
+</form>
+
+Uma vez associada essa diretiva, o form passa a ficar ciente do valor do campo, da forma que se o campo for válido,
+o form fica válido; se o campo ficar inválido, o form também se torna inválido.
+
+Podemos usar também o one-way-binding com 'ngModel' associando-a a uma propriedade de um componente. Nesse caso, apenas
+quando o valor do componente mudar, o campo também é atualizado. O oposto não é verdadeiro.
+<form>
+    <input type="text" name="name" [ngModel]="username" />
+</form>
+
+@Component({...})
+export class UserComponent {
+    username: string = "Nome do Usuário"
+}
+
+Para que o valor da propriedade do componente esteja atualizada como o input é necessário usar two-way-binding. Onde usamos
+tanto os colchetes como os parentesis. Nesse caso, se o campo mudar o valor da propriedade no componente também muda. Essa
+sintaxe é conhecida como 'banana in a box'.
+<form>
+    <input type="text" name="name" [(ngModel)]="username" />
+</form>
+
+@Component({...})
+export class UserComponent {
+    username: string = "Nome do Usuário"
+}
+
+Por último, podemos obter uma referência a 'ngForm' através de template variable e construir expressões que ajudam a controlar o
+acesso a certos componentes do form, como por exemplo, habilitar um botão baseado na validade do próprio form.
+<form #myForm="ngForm">
+    <input type="text" name="name" ngModel />
+    <input type="text" name="lastname" ngModel />
+    <input type="text" name="address" ngModel />
+
+    <button [disabled]="myForm.invalid"/>
+</form>
