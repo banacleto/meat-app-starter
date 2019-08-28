@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { HttpModule } from '@angular/http';
+import { FormsModule } from '@angular/forms'
 
 import { AppRoutingModule } from './app.routing.module';
 import { AppComponent } from './app.component';
@@ -36,11 +37,12 @@ import { OrderComponent } from './order/order.component';
   imports: [
     BrowserModule,
     HttpModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [
     RestaurantService,
-    ShoppingCartService, 
+    ShoppingCartService,
     /**
      * Este tipo de notação é um modelo extendido da declaração de providers acima. Quando usamos RestaurantServive, 
      * na verdade estamos dizendo: { provide: RestaurantService, useClass: RestaurantService }
