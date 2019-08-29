@@ -186,3 +186,26 @@ acesso a certos componentes do form, como por exemplo, habilitar um botão basea
 
     <button [disabled]="myForm.invalid"/>
 </form>
+
+# Validação com template forms
+A diretiva ngModel disponibiliza os seguintes estados que podem ser verificados para dar feedback visual aos usuários:
+- Valid e Invalid: Diz respeito se o valor do campo está de acordo com as regras de validação;
+- Pristine e Dirty: Pristine representa o estado inicial do campo ou do form. Uma vez que o usuário digita no campo, ele se
+torna Dirty e não volta mais;
+- Untouched e Touched: Touched indica quando o usuário entra no campo. A diferença entre dirty e touched é que para o campo ficar
+com o estado dirty o usuário precisa modificá-lo.
+
+Para saber em qual estado um campo se encontra a gente precisa obter uma referência para a diretiva ngModel do campo. A gente
+faz isso com template variables. Uma vez feito, podemos usar a variavel em qualquer lugar para indicar o status do campo para o usuário.
+<form>
+    <input name="name" [ngModel]="username" #ipt="ngModel" />
+    <span *ngIf="ipt.invalid">Nome inválido</span>
+</form>
+
+As validações que podemos atribuir a um campo são:
+- Required: especifica se o campo é obrigatório;
+- Pattern-Regex: que recebe um padrão de expressão regular;
+- Minlenght e Maxlenght: que recebe um número e verificar se o valor está atendendo ao especificado.
+
+Para dar um feedback visual ao usuário, o Angular associa ao campos e ao form as classes css ng-valid, ng-invalid, ng-pristine, ng-dirty,
+ng-untouched e ng-touched.
