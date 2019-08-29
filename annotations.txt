@@ -209,3 +209,29 @@ As validações que podemos atribuir a um campo são:
 
 Para dar um feedback visual ao usuário, o Angular associa ao campos e ao form as classes css ng-valid, ng-invalid, ng-pristine, ng-dirty,
 ng-untouched e ng-touched.
+
+# Criando um componente de Input (Content Projection)
+Uma vez que encapsulamos um Input Text dentro de um componente, o form perde a rastreabilidade desse Input, o form não consegue mais 
+enxerga-lo. Dessa forma, temos duas saídas para esse problema: a primeira saída é tranformar nosso input num componente container, aonde 
+a gente aplica apenas o estilo visual e deixa com que o componente parent, no caso, o componente de compra (order) passe o input text 
+pra a gente, isso é chamado de Content Projection. No segundo cenário deixamos o nosso componente completamente isolado dentro do input
+e a gente implementa uma interface chamada ControlValueAccessor que ela serve de ponte para as diretivas usadas de apoio ao formulário,
+como ngModel e o nosso proprio componente. 
+
+No caso onde temos um input text e aplicamos muita coisa a ele, basicamente relacionada ao visual é interessante usarmos a primeira 
+estratégia, onde criamos um container e aplicamos apenas a parte visual. Para fazermos Content Projection, precisamos utilizar uma
+tag especifica chamada <ng-content>. Ao invés de utilizar o input text no novo componente que criamos, simplesmente vamos troca-lo
+por uma tag chamada de <ng-content></ng-content>. Similar ao <router-outlet>, onde marcamos uma região que através de uma navegação,
+entramos com o componente correspondente àquele caminho, no caso do <ng-content> que também representa um espaço onde vai entrar o 
+conteúdo, conteúdo esse que vai ficar entre as tags do componente quando alguém estiver usando o componente recém criado. Sendo assim,
+colocaremos o <input> na página e dentro dele vamos colocar o conteúdo que deve aparecer dentro de <ng-content>. Chamamos essa técnica
+de Content Projection.
+
+<div class="form-group" [class.has-success]="hasSuccess()" [class.has-error]="hasError()">
+  <label class="control-label sr-only" for="inputSuccess"><i class="fa fa-check"></i> {{label}}</label>
+
+  <ng-content></ng-content>
+
+  <span class="help-block" *ngIf="hasSuccess()"><i class="fa fa-check"></i> Ok</span>
+  <span class="help-block" *ngIf="hasError()"><i class="fa fa-remove"></i>{{errorMessage}}</span>
+</div>
