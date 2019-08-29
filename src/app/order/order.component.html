@@ -27,13 +27,13 @@
               autocomplete="off">
           </mt-input-container>
         </div>
-        <div class="col-sm-2 col-xs-6">
-          <mt-input-container label="Número" errorMessage="Número obrigatório">
-            <input type="text" class="form-control" name="number" placeholder="Número" ngModel required
-              autocomplete="off">
+        <div class="col-sm-3 col-xs-6">
+          <mt-input-container label="Número" errorMessage="Obrigatório e somente números">
+            <input type="text" class="form-control" name="number" placeholder="Número" pattern="^[0-9]*$" ngModel
+              required autocomplete="off">
           </mt-input-container>
         </div>
-        <div class="col-sm-4 col-xs-6">
+        <div class="col-sm-3 col-xs-6">
           <mt-input-container>
             <input type="text" class="form-control" name="optional" placeholder="Complemento" ngModel>
           </mt-input-container>
