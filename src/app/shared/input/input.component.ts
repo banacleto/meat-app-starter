@@ -1,0 +1,48 @@
+import { Component, OnInit, Input, ContentChild, AfterContentInit } from '@angular/core';
+import { NgModel } from '@angular/forms'
+
+@Component({
+  selector: 'mt-input-container',
+  templateUrl: './input.component.html'
+})
+export class InputComponent implements OnInit, AfterContentInit {
+
+  @Input() label: string
+  @Input() errorMessage: string
+
+  input: any
+
+  /**
+   * Como parâmetro do ContentChild() podemos colocar uma referência a um elemento ou a uma diretiva. No nosso
+   * caso, estamos usando como parâmetro a diretiva NgModel, e chamamos de model, onde o tipo dela será NgModel.
+   */
+  @ContentChild(NgModel) model: NgModel
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+  /**
+   * Esse método será chamado exatamente quando o conteúdo for definido, ou seja, o conteúdo que vai ficar no lugar
+   * de ng-content quando este for definido. Então, assim que alguém apresentar esse conteúdo, será exatamento o
+   * momento que a gente precisa para checar se ngModel existe e também o momento em que pegaremos uma referência
+   * a ngModel e atribuir ao nosso input.
+   */
+  ngAfterContentInit() {
+    this.input = this.model
+    if (this.input === undefined) {
+      throw new Error('Esse componente precisa ser usado com uma diretiva ngModel')
+    }
+  }
+
+  hasSuccess(): boolean {
+    return this.input.valid && (this.input.dirty || this.input.touched)
+  }
+
+  hasError(): boolean {
+    return this.input.invalid && (this.input.dirty || this.input.touched)
+  }
+
+
+}
