@@ -21,6 +21,7 @@ import { OrderComponent } from './order/order.component';
 import { InputComponent } from './shared/input/input.component';
 import { RadioComponent } from './shared/radio/radio.component';
 import { OrderItemsComponent } from './order/order-items/order-items.component';
+import { OrderService } from './order/order.service';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { OrderItemsComponent } from './order/order-items/order-items.component';
   providers: [
     RestaurantService,
     ShoppingCartService,
+    OrderService,
     /**
      * Este tipo de notação é um modelo extendido da declaração de providers acima. Quando usamos RestaurantServive, 
      * na verdade estamos dizendo: { provide: RestaurantService, useClass: RestaurantService }
