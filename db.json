@@ -373,8 +373,8 @@
   "orders": [
     {
       "address": "Rua Apodi",
-      "number": "1202",
-      "optionalAddress": "App 100",
+      "number": "12",
+      "optionalAddress": "asd",
       "paymentOption": "DIN",
       "orderItems": [
         {
@@ -383,6 +383,36 @@
         }
       ],
       "id": 1
+    },
+    {
+      "address": "Rua José Ribeiro Dantas",
+      "number": "1993",
+      "optionalAddress": "",
+      "paymentOption": "DEB",
+      "orderItems": [
+        {
+          "quantity": 1,
+          "menuId": "bread"
+        }
+      ],
+      "id": 2
+    },
+    {
+      "address": "Rua Apodi",
+      "number": "4455",
+      "optionalAddress": "",
+      "paymentOption": "REF",
+      "orderItems": [
+        {
+          "quantity": 1,
+          "menuId": "greensandwich"
+        },
+        {
+          "quantity": 2,
+          "menuId": "zlasagna"
+        }
+      ],
+      "id": 3
     }
   ]
 }
