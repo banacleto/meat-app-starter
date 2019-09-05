@@ -370,5 +370,19 @@
       "restaurantId": "tasty-treats"
     }
   ],
-  "orders": []
+  "orders": [
+    {
+      "address": "Rua Apodi",
+      "number": "1202",
+      "optionalAddress": "App 100",
+      "paymentOption": "DIN",
+      "orderItems": [
+        {
+          "quantity": 1,
+          "menuId": "capp"
+        }
+      ],
+      "id": 1
+    }
+  ]
 }
