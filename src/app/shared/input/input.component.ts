@@ -5,7 +5,7 @@ import { Component, OnInit, Input, ContentChild, AfterContentInit } from '@angul
  * componente, vai ficar como filho do meu componente. Sempre que referenciamos um tipo, devemos importar 
  * aquele tipo. Dessa forma, referenciamos NgModel.
  */
-import { NgModel } from '@angular/forms'
+import { NgModel, FormControlName } from '@angular/forms'
 
 @Component({
   selector: 'mt-input-container',
@@ -23,6 +23,7 @@ export class InputComponent implements OnInit, AfterContentInit {
    * caso, estamos usando como parâmetro a diretiva NgModel, e chamamos de model, onde o tipo dela será NgModel.
    */
   @ContentChild(NgModel) model: NgModel
+  @ContentChild(FormControlName) control: FormControlName
 
   constructor() { }
 
@@ -36,11 +37,11 @@ export class InputComponent implements OnInit, AfterContentInit {
    * a ngModel e atribuir ao nosso input.
    */
   ngAfterContentInit() {
-    this.input = this.model
+    this.input = this.model || this.control
 
     // Verificando se no conteúdo que está sendo informado para a gente, existe a tag ngModel lá
     if (this.input === undefined) {
-      throw new Error('Esse componente precisa ser usado com uma diretiva ngModel')
+      throw new Error('Esse componente precisa ser usado com uma diretiva ngModel ou formControlName')
     }
   }
 
