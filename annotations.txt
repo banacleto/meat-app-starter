@@ -1,3 +1,17 @@
+Delivery de comida online
+- Montar lista de restaurantes;
+- Apresentar o cardapio e as avaliacao dos clientes;
+- Colocar produtos no carrinho;
+- Informar os nossos dados para finalizar uma compra;
+- Usando componentes, diretivas e pipes
+
+- Aprender o que são módulos;
+- Como usar serviços para consumir uma API Rest;
+- Entender o que Reactive Programming;
+- Implementar formulários de duas formas: template forms e reactive forms;
+- Comunicação entre componentes, criação de componentes reutilizáveis e aprender como integrar esses componentes com as diretivas de formulários do Angular;
+- Breve introdução ao typescript;
+
 # Conceitos de Reactive Programming
 Reactive Programming: A idéia de programação reativa é simples: Um evento acontece e os que estão interessados são notificados e reagem a ele. A idéia é baseada 
 num padrão bem comum na web chamado de observer. Nesse padrão, vamos ter um objeto que é o foco de interesse e teremos outros objetos interessados em alguma 
