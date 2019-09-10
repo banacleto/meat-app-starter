@@ -459,6 +459,22 @@
         }
       ],
       "id": 6
+    },
+    {
+      "name": "BRUNO ANACLETO SANTOS DE SOUSA",
+      "email": "anacleto@gmail.com",
+      "emailConfirmation": "anacleto@gmail.com",
+      "address": "Rua José Ribeiro Dantas",
+      "number": "1993",
+      "optionalAddress": "",
+      "paymentOption": "DEB",
+      "orderItems": [
+        {
+          "quantity": 1,
+          "menuId": "cup-cake"
+        }
+      ],
+      "id": 7
     }
   ]
 }

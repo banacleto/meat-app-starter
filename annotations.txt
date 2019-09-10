@@ -3,7 +3,7 @@ Delivery de comida online
 - Apresentar o cardapio e as avaliacao dos clientes;
 - Colocar produtos no carrinho;
 - Informar os nossos dados para finalizar uma compra;
-- Usando componentes, diretivas e pipes
+- Usando componentes, diretivas, pipes, router e serviços;
 
 - Aprender o que são módulos;
 - Como usar serviços para consumir uma API Rest;
