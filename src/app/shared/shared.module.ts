@@ -1,6 +1,9 @@
 import { CommonModule } from "@angular/common"; // Módulo que possui as diretivas básicas (importado automaticamente pelo BrowserModule)
-import { NgModule } from "@angular/core";
+import { ModuleWithProviders, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { OrderService } from "app/order/order.service";
+import { ShoppingCartService } from "app/restaurant-detail/shopping-cart/shopping-cart.service";
+import { RestaurantService } from "app/restaurants/restaurants.service";
 import { InputComponent } from "./input/input.component";
 import { RadioComponent } from "./radio/radio.component";
 import { RatingComponent } from "./rating/rating.component";
@@ -12,4 +15,11 @@ import { RatingComponent } from "./rating/rating.component";
     exports: [InputComponent, RadioComponent, RatingComponent,
         CommonModule, FormsModule, ReactiveFormsModule]
 })
-export class SharedModule { }
+export class SharedModule {
+    static forRoots(): ModuleWithProviders {
+        return {
+            ngModule: SharedModule,
+            providers: [ShoppingCartService, RestaurantService, OrderService]
+        }
+    }
+}
