@@ -3,20 +3,17 @@ import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing.module';
+import { CoreModule } from './core/core.module';
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { OrderSummaryComponent } from './order-summary/order-summary.component';
-import { OrderModule } from './order/order.module';
-import { OrderService } from './order/order.service';
 import { MenuItemComponent } from './restaurant-detail/menu-item/menu-item.component';
 import { MenuComponent } from './restaurant-detail/menu/menu.component';
 import { RestaurantDetailComponent } from './restaurant-detail/restaurant-detail.component';
 import { ReviewsComponent } from './restaurant-detail/reviews/reviews.component';
 import { ShoppingCartComponent } from './restaurant-detail/shopping-cart/shopping-cart.component';
-import { ShoppingCartService } from './restaurant-detail/shopping-cart/shopping-cart.service';
 import { RestaurantComponent } from './restaurants/restaurant/restaurant.component';
 import { RestaurantsComponent } from './restaurants/restaurants.component';
-import { RestaurantService } from './restaurants/restaurants.service';
 import { SharedModule } from './shared/shared.module';
 
 
@@ -38,12 +35,10 @@ import { SharedModule } from './shared/shared.module';
     BrowserModule,
     HttpModule,
     AppRoutingModule,
-    SharedModule
+    SharedModule,
+    CoreModule
   ],
   providers: [
-    RestaurantService,
-    ShoppingCartService,
-    OrderService,
     /**
      * Este tipo de notação é um modelo extendido da declaração de providers acima. Quando usamos RestaurantServive, 
      * na verdade estamos dizendo: { provide: RestaurantService, useClass: RestaurantService }
