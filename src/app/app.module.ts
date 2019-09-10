@@ -6,9 +6,7 @@ import { AppRoutingModule } from './app.routing.module';
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { OrderSummaryComponent } from './order-summary/order-summary.component';
-import { DeliveryCostsComponent } from './order/delivery-costs/delivery-costs.component';
-import { OrderItemsComponent } from './order/order-items/order-items.component';
-import { OrderComponent } from './order/order.component';
+import { OrderModule } from './order/order.module';
 import { OrderService } from './order/order.service';
 import { MenuItemComponent } from './restaurant-detail/menu-item/menu-item.component';
 import { MenuComponent } from './restaurant-detail/menu/menu.component';
@@ -34,9 +32,6 @@ import { SharedModule } from './shared/shared.module';
     ShoppingCartComponent,
     MenuItemComponent,
     ReviewsComponent,
-    OrderComponent,
-    OrderItemsComponent,
-    DeliveryCostsComponent,
     OrderSummaryComponent,
   ],
   imports: [
