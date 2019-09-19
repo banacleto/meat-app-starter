@@ -41,6 +41,7 @@ export class OrderComponent implements OnInit {
     }, { validator: OrderComponent.equalsTo })
   }
 
+  // Função capaz de validar um ou mais campos utilizados no form
   static equalsTo(group: AbstractControl): { [key: string]: boolean } {
     const email = group.get('email')
     const emailConfirmation = group.get('emailConfirmation')
@@ -48,7 +49,7 @@ export class OrderComponent implements OnInit {
     if (!email || !emailConfirmation) {
       return undefined
     }
-    if (email.value != emailConfirmation.value) {
+    if (email.value !== emailConfirmation.value) {
       return { emailsNotMatch: true }
     }
 
