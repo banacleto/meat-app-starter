@@ -249,3 +249,43 @@ de Content Projection.
   <span class="help-block" *ngIf="hasSuccess()"><i class="fa fa-check"></i> Ok</span>
   <span class="help-block" *ngIf="hasError()"><i class="fa fa-remove"></i>{{errorMessage}}</span>
 </div>
+
+
+# Módulos Angular
+São itens de configuração do framwork que servem para agregar componentes, diretivas, serviços ou pipes mas não só com o único objetivo 
+de organizar o código. Poderemos decidir o que vai ser exportado para fora do módulo e ainda como a injeção de dependênciasncias será configurada. 
+Além disso, existem coisas bem interessantes: imagine que tenhamos uma app relativamente grande e que seja acessada por milhares de usuários; é 
+bem provavel que esses usuários façam parte de setores diferentes de uma empresa, fazendo com que acessem informações bem distintas da aplicação. 
+Dessa forma, não é interessante carregar a aplicação para todos eles, uma parte vai estar interessada em apenas numa parte da aplicação. Com 
+módulos é possível dividir a aplicação em partes independentes e definir que essas partes não sejam carregadas de imediato, apenas quando 
+requisitadas. Com isso, o startup da aplicação ficará mais rápido, porque de inicio as pessoas não mais irão precisar esperar por algo que elas 
+não irão usar. Essa feature é chamada de lazy-loading ou carregamento tardio.
+
+Tipos de Módulos
+- Root Module: Contém as declarações dos componentes que são usadas na aplicação inteira. Esse é o módulo que faz o bootstrap da aplicação. Em 
+aplicações pequenas, ter tudo no 'root-module' é o suficiente. Mas, a medida que a aplicação cresce pode ser necessário organizar os componentes 
+em outros módulos.
+- Shared Module: Contém componentes que são usados por outros módulos da aplicação.
+- Core Module: Contém todos os serviços da aplicação. Esse módulo não contém componentes, apenas serviços. Um módulo similar é o Http do próprio 
+Angular, sendo um exemplo de 'core-module'.
+- Feature Module: São módulos que contém as implementações das funcionalidades da aplicação.
+
+Separar em módulos pode ajudar a tornar o carregamento da aplicação mais rápido porque podemos escolher apenas um conjunto de features para serem 
+carregadas de início.
+Resumo:
+- Shared: Componentes, Diretivas e Pipes
+- Feature: Feat. Componentes, Diretivas, etc. São Módulos com funcionalidades da aplicação que importam o share-module.
+- Core: Não importa nada da aplicação, apenas serviços.
+- Root: Referencia o core-module e talvez, os outros módulos também.
+
+Para declarar um módulo, precisamos de uma classe associada com o Decorator @NgModule, muito similar ao root-module sendo que a única diferença é 
+o fato de não ter o bootstrap. Ainda na declaração de um módulo, precisamos listar os componentes que serão visíveis de fora do módulo usando o 
+atributo 'exports' (sem isso os componentes são visíveis apenas internamente).
+
+@NgModule({
+	declarations: [...],
+	imports: [...],
+	providers: [...],
+	exports: [...]
+})
+export class MyModule { }
