@@ -10,12 +10,22 @@ import { RatingComponent } from "./rating/rating.component";
 
 
 @NgModule({
+    // Declarando todos os componentes que teremos dentro do módulo
     declarations: [InputComponent, RadioComponent, RatingComponent],
+    
+    // Importanto as dependências do nosso módulo
     imports: [CommonModule, FormsModule, ReactiveFormsModule],
+
+    /**
+     * A propriedade 'exports' nos permite informar quais são os componentes de dentro do nosso 
+     * módulo que queremos que sejam utilizados por outros módulos. O fato dos módulos CommonModule, 
+     * FormsModule e ReactiveFormsModule estarem declarados aqui serve apenas para mostrar que podemos
+     * enxugar a configuração dos outros módulos também, que nosso caso seria o AppModule (raiz).
+     */
     exports: [InputComponent, RadioComponent, RatingComponent,
         CommonModule, FormsModule, ReactiveFormsModule]
 })
-export class SharedModule {
+export class SharedModule { // Exemplo de Shared Module. Este módulo é inicializado junto com o módulo raiz.
     static forRoots(): ModuleWithProviders {
         return {
             ngModule: SharedModule,

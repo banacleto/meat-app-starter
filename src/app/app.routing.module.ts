@@ -15,7 +15,8 @@ const routes: Routes = [
     {
         path: 'restaurants/:id', component: RestaurantDetailComponent,
         children: [
-            { path: '', redirectTo: 'menu', pathMatch: 'full' }, // Quando eu não informar niguém, serei redirecionado para o menu e o caminho será '*restaurants/1'
+            // Quando eu não informar niguém, serei redirecionado para o menu e o caminho será '*restaurants/1'
+            { path: '', redirectTo: 'menu', pathMatch: 'full' },
             { path: 'menu', component: MenuComponent },
             { path: 'reviews', component: ReviewsComponent }]
     },
@@ -24,6 +25,12 @@ const routes: Routes = [
 ];
 
 @NgModule({
+    /**
+     * Realizando o Pré-Carregamento de Todos os Módulos usando a propriedade 'preloadingStrategy'
+     * Próxima vez que a nossa aplicação for carregada no browser, os módulos serão carregados
+     * logo depois que os módulos principais forem aparecendo, ou seja, os que não são carregados usando
+     * lazy-loading. Uma thread rodará em background carregando os demais módulos.
+     */
     imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
     exports: [RouterModule]
 })

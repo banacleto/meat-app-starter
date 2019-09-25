@@ -289,3 +289,5 @@ atributo 'exports' (sem isso os componentes são visíveis apenas internamente).
 	exports: [...]
 })
 export class MyModule { }
+
+O módulo que criamos AboutModule é um exemplo de feature-module.

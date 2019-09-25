@@ -34,6 +34,8 @@ import { SharedModule } from './shared/shared.module';
     BrowserModule,
     HttpModule,
     AppRoutingModule,
+    
+    // Importando o SharedModule + providers: [ShoppingCartService, RestaurantService, OrderService]
     SharedModule.forRoots()
   ],
   providers: [

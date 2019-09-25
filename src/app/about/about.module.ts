@@ -40,6 +40,9 @@ const routes: Routes = [{ path: '', component: AboutComponent }]
      * rotas para este módulo filho.
      */
     declarations: [AboutComponent],
+
+    // Importanto as dependências do nosso módulo
     imports: [RouterModule, RouterModule.forChild(routes)]
 })
-export class AboutModule { }
+export class AboutModule { // Exemplo de Feature Module. Este módulo é declarado como lazy-loading.
+}
