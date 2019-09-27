@@ -5,13 +5,14 @@ import { OrderService } from "app/order/order.service";
 import { ShoppingCartService } from "app/restaurant-detail/shopping-cart/shopping-cart.service";
 import { RestaurantService } from "app/restaurants/restaurants.service";
 import { InputComponent } from "./input/input.component";
+import { SnackbarComponent } from './messages/snackbar/snackbar.component';
 import { RadioComponent } from "./radio/radio.component";
 import { RatingComponent } from "./rating/rating.component";
 
 
 @NgModule({
     // Declarando todos os componentes que teremos dentro do módulo
-    declarations: [InputComponent, RadioComponent, RatingComponent],
+    declarations: [InputComponent, RadioComponent, RatingComponent, SnackbarComponent],
     
     // Importanto as dependências do nosso módulo
     imports: [CommonModule, FormsModule, ReactiveFormsModule],
@@ -22,7 +23,7 @@ import { RatingComponent } from "./rating/rating.component";
      * FormsModule e ReactiveFormsModule estarem declarados aqui serve apenas para mostrar que podemos
      * enxugar a configuração dos outros módulos também, que nosso caso seria o AppModule (raiz).
      */
-    exports: [InputComponent, RadioComponent, RatingComponent,
+    exports: [InputComponent, RadioComponent, RatingComponent, SnackbarComponent,
         CommonModule, FormsModule, ReactiveFormsModule]
 })
 export class SharedModule { // Exemplo de Shared Module. Este módulo é inicializado junto com o módulo raiz.
