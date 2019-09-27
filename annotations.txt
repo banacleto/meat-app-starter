@@ -291,3 +291,20 @@ atributo 'exports' (sem isso os componentes são visíveis apenas internamente).
 export class MyModule { }
 
 O módulo que criamos AboutModule é um exemplo de feature-module.
+
+
+# Introdução a Animações
+Para usarmos animações no Angular antes precisamos importar as dependências no nosso projeto:
+1. Importar o Módulo de animações do Angular:
+npm install --save @angular/animations@4.0.0
+
+2. Importar e configurar o polyfills para browsers que não suportar a WebAnimationsApi:
+npm install --save web-animations-js
+src/polyfills.js << import 'web-animations-js/web-animations.min.js'
+
+3. Configurar o BrowserAnimationsModule no nosso módulo raiz.
+src/app/app.module.ts << { 
+    import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+        ...
+    imports: [..., BrowserAnimationsModule, ...]
+}
