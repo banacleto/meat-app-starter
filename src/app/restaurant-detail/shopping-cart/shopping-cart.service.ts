@@ -1,8 +1,13 @@
-import { CarItem } from "./car-item.model";
+import { Injectable } from "@angular/core";
+import { NotificationService } from "app/shared/messages/notification.service";
 import { MenuItem } from "../menu-item/menu-item.model";
+import { CarItem } from "./car-item.model";
 
+@Injectable()
 export class ShoppingCartService {
     items: CarItem[] = []
+
+    constructor(private notificationService: NotificationService) {}
 
     clear() {
         this.items = []
@@ -15,6 +20,7 @@ export class ShoppingCartService {
         } else {
             this.items.push(new CarItem(item))
         }
+        this.notificationService.notify(`Você adicionou o item ${item.name}`)
     }
 
     increaseQty(item: CarItem) {
@@ -29,6 +35,7 @@ export class ShoppingCartService {
 
     removeItem(item: CarItem) {
         this.items.splice(this.items.indexOf(item), 1)
+        this.notificationService.notify(`Você removeu o item ${item.menuItem.name}`)
     }
 
     total(): number {
