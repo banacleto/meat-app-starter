@@ -1,15 +1,23 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { RestaurantService } from 'app/restaurants/restaurants.service';
-import { ActivatedRoute } from '@angular/router';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MenuItem } from './menu-item.model';
 
 @Component({
   selector: 'mt-menu-item',
-  templateUrl: './menu-item.component.html'
+  templateUrl: './menu-item.component.html',
+  animations: [
+    trigger('menu-item-appeared', [ // O nome da trigger é o nome da animação
+      state('ready', style({ opacity: 1 })), // Definindo um estado e o estilo relacionado a esse estado
+      transition('void => ready', [ // Declarando uma transição de um estado que não está na arvore de componentes para quando ele entra nela
+        style({ opacity: 0, transform: 'translateY(-20px)' }), // Aplicando um estilo na transição
+        animate('300ms 0s ease-in') // Definindo como vai ser a nossa animação (duração, delay, tipo)
+      ])
+    ])
+  ]
 })
 export class MenuItemComponent implements OnInit {
 
+  menuItemState = 'ready'
   @Input() menuItem: MenuItem
   @Output() add = new EventEmitter
 
