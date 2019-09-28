@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 import { OrderSummaryComponent } from './order-summary/order-summary.component';
 import { MenuComponent } from './restaurant-detail/menu/menu.component';
 import { RestaurantDetailComponent } from './restaurant-detail/restaurant-detail.component';
 import { ReviewsComponent } from './restaurant-detail/reviews/reviews.component';
 import { RestaurantsComponent } from './restaurants/restaurants.component';
-
 
 const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -21,7 +21,13 @@ const routes: Routes = [
             { path: 'reviews', component: ReviewsComponent }]
     },
     { path: 'order', loadChildren: './order/order.module#OrderModule' },
-    { path: 'order-summary', component: OrderSummaryComponent }
+    { path: 'order-summary', component: OrderSummaryComponent },
+
+    /**
+     * Declarando uma wildcard route (chamadando página não encontrada). Deve ser declarada sem no final por se tratar da
+     * rota mais genérica.
+     */
+    { path: '**', component: NotFoundComponent } 
 ];
 
 @NgModule({
