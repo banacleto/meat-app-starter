@@ -335,3 +335,32 @@ https://www.tektutorialshub.com/angular/angular-location-strategies/
 a) Personalizando a Construção com Variáveis de Ambientes
 npm start --env=dev
 npm start --env=prod
+
+# Deploy de uma Aplicação
+1. Deploy no Apache HTTP Server
+2. Deploy Usando a Estratégia de Caminho - Apache HTTP Server
+3. Deploy Usando o arquivo htaccess - Apache HTTP Server
+
+4. Modificando o base-href (ver index.html) para Deploys em Subdiretórios
+# Para isso, basta fazer:
+> mkdir meat
+> ng build --prod --bh=/meat/
+> cp -r build/* /meat/
+
+5. Resumo do Processo de Build e Deploy
+# Build
+> ng build --prod --bh=/meat/
+
+# Configurações
+> src/environments/environment.prod.ts
+
+# Estratégias de URL (Location Strategy)
+PATH vs HASH
+
+A estratégia por caminho exige que o servidor retorne um index.html sempre que houver um 404. No hash essa configuração
+não é necessária. Se o ambiente em que vamos fazer o deploy não expõe as configurações, a estratégia por hash pode ser 
+uma saída simples.
+
+# Publicando no Apache
+Em optar por usar a estratégia por caminho (path), devemos configurar o arquivo pricipal 'httpd.conf' ou adicionar o arquivo
+.htaccess no diretório raiz da aplicação.
