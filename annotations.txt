@@ -308,3 +308,25 @@ src/app/app.module.ts << {
         ...
     imports: [..., BrowserAnimationsModule, ...]
 }
+
+
+# Preparando a aplicação para Produção
+1. Como realizar o build
+a) Diferenças entre o 'ng serve' x 'ng build'
+b) Diferenças entre o 'ng build' e 'ng build --prod'
+
+-- Bundling: Concatena seus muitos arquivos de aplicativos e bibliotecas em alguns pacotes;
+
+- Tree Shaking: Tentando eliminar códigos importados mas que não é utilizado na aplicação para que os bundles finais fiquem menores;
+
+- Minify (or uglify): Minificação dos recursos retirando espaços em branco;
+
+- Compilação dos templates: Etapa realizada quando é feito o bootstrap da aplicação compilando os templates para Javascript;
+-- Em desenvolvimento (Just-in-Time (JIT)): Acontece de forma dinâmica, dentro do browser;
+-- Em produção (Ahead-of-Time (AOT)): Compilação dos templates e detecção de problemas antes da aplicação ser servida ao browser (acontece de forma estática);
+Etapas de compilação em produção: O intuito de uma aplicação em produção é estar otimizada
+- Transformação HTML (para) Compilação de Typescript (para) Javascript): Provavelmente na segunda compilação poderá ser detectado erros de compilação
+
+2. Estratégia padrão que o Angular usa para localização de URLs
+
+3. Como personalizar o build de produção utilizando variáveis de ambiente
