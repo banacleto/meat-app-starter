@@ -36,8 +36,11 @@ const routes: Routes = [
      * Próxima vez que a nossa aplicação for carregada no browser, os módulos serão carregados
      * logo depois que os módulos principais forem aparecendo, ou seja, os que não são carregados usando
      * lazy-loading. Uma thread rodará em background carregando os demais módulos.
+     * 
+     * Modificando a Estratégia de Navegação para usar HashLocationStrategy
+     * Para saber mais: https://angular.io/guide/router#appendix-locationstrategy-and-browser-url-styles
      */
-    imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
+    imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, useHash: true })], 
     exports: [RouterModule]
 })
 export class AppRoutingModule { }
