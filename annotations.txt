@@ -332,3 +332,6 @@ https://angular.io/guide/router#appendix-locationstrategy-and-browser-url-styles
 https://www.tektutorialshub.com/angular/angular-location-strategies/
 
 3. Como personalizar o build de produção utilizando variáveis de ambiente
+a) Personalizando a Construção com Variáveis de Ambientes
+npm start --env=dev
+npm start --env=prod
