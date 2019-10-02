@@ -1,6 +1,9 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/switchMap';
 import { Restaurant } from './restaurant/restaurant.model';
 import { RestaurantService } from './restaurants.service';
@@ -62,11 +65,12 @@ export class RestaurantsComponent implements OnInit {
       searchControl: this.searchControl
     })
 
-    /**
-     * O proximo passo é começar a ouvir o que o usuário vai digitar através da propriedade 'searchControl.
-     */
     this.searchControl.valueChanges
-      .switchMap(searchTerm => this.restaurantServices.restaurants(searchTerm))
+      // O proximo passo é começar a ouvir o que o usuário vai digitar através da propriedade 'searchControl.
+      .debounceTime(500) // ignora qualquer digitação que for realizada num tempo inferior a 500ms
+      .distinctUntilChanged() // uma pesquisa tem que ser diferente de uma próxima pesquisa
+      //.do(searchTerm => console.log(searchTerm)) // usado somente para logar o resultado das operações no console
+      .switchMap(searchTerm => this.restaurantServices.restaurants(searchTerm)) // quando chega uma nova mensagem o switchMap faz o ubsubscribe da anterior
       .subscribe(restaurants => this.restaurants = restaurants)
 
     this.restaurantServices.restaurants() // como o serviço está retornando um Observable...
