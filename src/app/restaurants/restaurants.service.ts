@@ -26,8 +26,8 @@ export class RestaurantService {
   constructor(private http: Http) { }
 
   // Configuração do Observable: Consumindo a API mockada do json-server
-  restaurants(): Observable<Restaurant[]> {
-    return this.http.get(`${MEAT_API}/restaurants`) // até aqui o retorno é do tipo Observable<Response> (resposta crua: status, mensagens ok/erro, corpo...)
+  restaurants(search?: string): Observable<Restaurant[]> { // atributo 'search?' é definido como opcional para não quebrar os outros métodos que não passam valores.
+    return this.http.get(`${MEAT_API}/restaurants`, { params: { q: search } }) // até aqui o retorno é do tipo Observable<Response> (resposta crua: status, mensagens ok/erro, corpo...)
       .map(response => response.json()) // transformando (map) o objeto Observable<Response> num array de restaurantes (Observable<Restaurant[]>)
       // A chamada http não será feita nesse momento, precisamos primeiro fazer um subscribe. Apenas depois que fizermos um subscribe é que a 
       // requisição será feita. Dessa forma, o subscribe será feito no componente 'RestaurantsComponent'.

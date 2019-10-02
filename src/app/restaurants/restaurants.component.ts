@@ -1,7 +1,9 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import 'rxjs/add/operator/switchMap';
 import { Restaurant } from './restaurant/restaurant.model';
 import { RestaurantService } from './restaurants.service';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'mt-restaurants',
@@ -40,11 +42,12 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 export class RestaurantsComponent implements OnInit {
 
   searchBarState = 'hidden' // propriedade do componente para controlar a visibilidade da search-bar
-
   restaurants: Restaurant[]
+  searchForm: FormGroup // propriedade que representa o formulário
+  searchControl: FormControl // propriedade que representa o input-text
 
   // Injetando a classe de serviço RestaurantService dentro do componente
-  constructor(private restaurantServices: RestaurantService) { }
+  constructor(private restaurantServices: RestaurantService, private formBuilder: FormBuilder) { }
 
   /**
    * Sempre que a gente criar um componente com o angular-cli, automaticamente o componente implementa a interface 'OnInit'. 
@@ -54,6 +57,18 @@ export class RestaurantsComponent implements OnInit {
    *  
    */
   ngOnInit() {
+    this.searchControl = this.formBuilder.control('') // inicializando o searchControl com texto vazio
+    this.searchForm = this.formBuilder.group({
+      searchControl: this.searchControl
+    })
+
+    /**
+     * O proximo passo é começar a ouvir o que o usuário vai digitar através da propriedade 'searchControl.
+     */
+    this.searchControl.valueChanges
+      .switchMap(searchTerm => this.restaurantServices.restaurants(searchTerm))
+      .subscribe(restaurants => this.restaurants = restaurants)
+
     this.restaurantServices.restaurants() // como o serviço está retornando um Observable...
       .subscribe(restaurants => this.restaurants = restaurants) // ... precisamos fazer um subscribe
     // Essa operação acontece de forma assincrona. 
