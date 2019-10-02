@@ -1,10 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { Restaurant } from './restaurant/restaurant.model';
 import { RestaurantService } from './restaurants.service';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'mt-restaurants',
   templateUrl: './restaurants.component.html',
+  animations: [
+    trigger('toggleSearch', [
+      state('hidden', style({
+        opacity: 0, // colocando a search-bar como invisível, escondida
+        "max-height": "0px" // zerando a altura da search-bar, aproximando o título superior da lista de restaurantes
+      })),
+      state('visible', style({
+        opacity: 1,
+        "max-height": "70px",
+        "margin-top": "20px" // corrigindo o espaçamento entre o título superior e a search-bar
+      })),
+      transition('* => *', animate('250ms 0s ease-in-out'))
+    ])
+  ]
 
   /**
    * No geral, são três os escopos que podem ser usados para se declarar um serviço.
@@ -24,6 +39,8 @@ import { RestaurantService } from './restaurants.service';
 })
 export class RestaurantsComponent implements OnInit {
 
+  searchBarState = 'hidden' // propriedade do componente para controlar a visibilidade da search-bar
+
   restaurants: Restaurant[]
 
   // Injetando a classe de serviço RestaurantService dentro do componente
@@ -39,11 +56,15 @@ export class RestaurantsComponent implements OnInit {
   ngOnInit() {
     this.restaurantServices.restaurants() // como o serviço está retornando um Observable...
       .subscribe(restaurants => this.restaurants = restaurants) // ... precisamos fazer um subscribe
-      // Essa operação acontece de forma assincrona. 
-      // Resumindo: O componente será instanciado, as dependências são atribuidas que é o 'RestaurantService'.
-      // No método ngOnInit(), no momento que fizermos o subscribe a requisição http vai ser feita, a resposta vai chegar, 
-      // ela vai ser mapeada para o json da resposta, retornando um array de restaurantes que será recebido neste listener,
-      // que seria a lista de restaurantes, para depois pegar essa lista e jogar na propriedade restaurants.
+    // Essa operação acontece de forma assincrona. 
+    // Resumindo: O componente será instanciado, as dependências são atribuidas que é o 'RestaurantService'.
+    // No método ngOnInit(), no momento que fizermos o subscribe a requisição http vai ser feita, a resposta vai chegar, 
+    // ela vai ser mapeada para o json da resposta, retornando um array de restaurantes que será recebido neste listener,
+    // que seria a lista de restaurantes, para depois pegar essa lista e jogar na propriedade restaurants.
+  }
+
+  toggleSearch() {
+    this.searchBarState = this.searchBarState === 'hidden' ? 'visible' : 'hidden'
   }
 
 }
