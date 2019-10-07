@@ -1,15 +1,15 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/Observable/from';
+import { Observable } from 'rxjs/Observable';
 import { Restaurant } from './restaurant/restaurant.model';
 import { RestaurantService } from './restaurants.service';
-import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'mt-restaurants',
@@ -74,8 +74,7 @@ export class RestaurantsComponent implements OnInit {
       .distinctUntilChanged() // uma pesquisa tem que ser diferente de uma próxima pesquisa
       //.do(searchTerm => console.log(searchTerm)) // usado somente para logar o resultado das operações no console
       .switchMap( // quando chega uma nova mensagem o switchMap faz o ubsubscribe da anterior
-          searchTerm => this.restaurantServices
-            .restaurants(searchTerm) 
+          searchTerm => this.restaurantServices.restaurants(searchTerm) 
             .catch(error => Observable.from([])) // em caso de erro, o Observable retornará um array vazio de restaurantes evitando quebrar o 'this.searchControl.valueChanges'
       )
       .subscribe(restaurants => this.restaurants = restaurants)
