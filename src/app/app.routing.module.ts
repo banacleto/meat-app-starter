@@ -7,9 +7,11 @@ import { MenuComponent } from './restaurant-detail/menu/menu.component';
 import { RestaurantDetailComponent } from './restaurant-detail/restaurant-detail.component';
 import { ReviewsComponent } from './restaurant-detail/reviews/reviews.component';
 import { RestaurantsComponent } from './restaurants/restaurants.component';
+import { LoginComponent } from './security/login/login.component'
 
 const routes: Routes = [
     { path: '', component: HomeComponent },
+    { path: 'login', component: LoginComponent },
     { path: 'about', loadChildren: './about/about.module#AboutModule' },
     { path: 'restaurants', component: RestaurantsComponent },
     {
@@ -27,7 +29,7 @@ const routes: Routes = [
      * Declarando uma wildcard route (chamadando página não encontrada). Deve ser declarada sem no final por se tratar da
      * rota mais genérica.
      */
-    { path: '**', component: NotFoundComponent } 
+    { path: '**', component: NotFoundComponent }
 ];
 
 @NgModule({
@@ -40,7 +42,7 @@ const routes: Routes = [
      * Modificando a Estratégia de Navegação para usar HashLocationStrategy
      * Para saber mais: https://angular.io/guide/router#appendix-locationstrategy-and-browser-url-styles
      */
-    imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, useHash: true })], 
+    imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, useHash: true })],
     exports: [RouterModule]
 })
 export class AppRoutingModule { }
