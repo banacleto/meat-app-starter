@@ -7,24 +7,39 @@ import { MenuComponent } from './restaurant-detail/menu/menu.component';
 import { RestaurantDetailComponent } from './restaurant-detail/restaurant-detail.component';
 import { ReviewsComponent } from './restaurant-detail/reviews/reviews.component';
 import { RestaurantsComponent } from './restaurants/restaurants.component';
-import { LoginComponent } from './security/login/login.component'
+import { LoggedInGuard } from './security/loggedin.guard';
+import { LoginComponent } from './security/login/login.component';
 
+/**
+ * As rotas mais específicas devem vir primeiro e as mais genéricas vêm depois.
+ */
 const routes: Routes = [
     { path: '', component: HomeComponent },
+
+    /**
+     * Rota criada para permitir que o usuário, ao tentar acessar uma rota protegida, seja direcionado para a 
+     * tela de login e após se logar com sucesso, seja redirecionado para a tela anterior a de login.
+     */
+    { path: 'login/:to', component: LoginComponent },
     { path: 'login', component: LoginComponent },
-    { path: 'about', loadChildren: './about/about.module#AboutModule' },
-    { path: 'restaurants', component: RestaurantsComponent },
     {
         path: 'restaurants/:id', component: RestaurantDetailComponent,
         children: [
-            // Quando eu não informar niguém, serei redirecionado para o menu e o caminho será '*restaurants/1'
+            // Quando eu não informar ninguém, serei redirecionado para o menu e o caminho será '*restaurants/1'
             { path: '', redirectTo: 'menu', pathMatch: 'full' },
             { path: 'menu', component: MenuComponent },
             { path: 'reviews', component: ReviewsComponent }]
     },
-    { path: 'order', loadChildren: './order/order.module#OrderModule' },
+    { path: 'restaurants', component: RestaurantsComponent },
+    
+    /**
+     * LoggedInGuard é uma classe que implementa a interface CanLoad para ser um guarda, decidindo se as crianças 
+     * podem ser carregadas
+     */
+    { path: 'order', loadChildren: './order/order.module#OrderModule', canLoad: [LoggedInGuard] },
     { path: 'order-summary', component: OrderSummaryComponent },
-
+    { path: 'about', loadChildren: './about/about.module#AboutModule' },
+    
     /**
      * Declarando uma wildcard route (chamadando página não encontrada). Deve ser declarada sem no final por se tratar da
      * rota mais genérica.
