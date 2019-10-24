@@ -1,12 +1,9 @@
-import { Subject } from "rxjs/Subject";
+import { EventEmitter } from "@angular/core";
 
 export class NotificationService {
-    // private notifier = new EventEmitter<string>()
-    private subject = new Subject<string>()
-    public notifier = this.subject.asObservable()
+    public notifier = new EventEmitter<string>()
 
     notify(message: string) {
-        //this.notifier.emit(message)
-        this.subject.next(message)
+        this.notifier.emit(message)
     }
 }
