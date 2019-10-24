@@ -31,15 +31,15 @@ const routes: Routes = [
             { path: 'reviews', component: ReviewsComponent }]
     },
     { path: 'restaurants', component: RestaurantsComponent },
-    
+
     /**
      * LoggedInGuard é uma classe que implementa a interface CanLoad para ser um guarda, decidindo se as crianças 
      * podem ser carregadas
      */
-    { path: 'order', loadChildren: './order/order.module#OrderModule', canLoad: [LoggedInGuard] },
+    { path: 'order', loadChildren: './order/order.module#OrderModule', canLoad: [LoggedInGuard], canActivate: [LoggedInGuard] },
     { path: 'order-summary', component: OrderSummaryComponent },
     { path: 'about', loadChildren: './about/about.module#AboutModule' },
-    
+
     /**
      * Declarando uma wildcard route (chamadando página não encontrada). Deve ser declarada sem no final por se tratar da
      * rota mais genérica.

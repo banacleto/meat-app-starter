@@ -27,6 +27,6 @@ export class LoginService {
      * app.routing.module.ts: { path: 'login/:to', component: LoginComponent }
     */
     handleLogin(path?: string) {
-        this.router.navigate(['/login', path])
+        this.router.navigate(['/login', btoa(path)]) // btoa(str): 
     }
 }

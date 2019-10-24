@@ -28,13 +28,13 @@ export class LoginComponent implements OnInit {
      * Se alguem chamar a nossa tela de login e não passar nenhuma rota, 
      * seremos direcionado para a tela principal
      */
-    this.navigateTo = this.activatedRoute.snapshot.params['to'] || '/'
+    this.navigateTo = this.activatedRoute.snapshot.params['to'] || btoa('/') // btoa(str): enconding the str in base64
   }
 
   login() {
     this.loginService.login(this.loginForm.value.email, this.loginForm.value.password)
       .subscribe(user => this.notificationService.notify(`Bem vindo, ${user.name}`),
         response => this.notificationService.notify(response.error.msg),
-        () => { this.router.navigate([this.navigateTo]) })
+        () => { this.router.navigate([atob(this.navigateTo)]) }) // atob(str): decoding the str
   }
 }
