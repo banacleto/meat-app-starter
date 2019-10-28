@@ -25,8 +25,7 @@ export class LoginComponent implements OnInit {
     })
 
     /**
-     * Se alguem chamar a nossa tela de login e não passar nenhuma rota, 
-     * seremos direcionado para a tela principal
+     * Se alguem chamar a nossa tela de login e não passar nenhuma rota, seremos direcionado para a tela principal
      */
     this.navigateTo = this.activatedRoute.snapshot.params['to'] || btoa('/') // btoa(str): enconding the str in base64
   }

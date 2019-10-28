@@ -38,6 +38,9 @@ export class LoginService {
     /**
      * Rota: /login/order -> LoginComponent
      * app.routing.module.ts: { path: 'login/:to', component: LoginComponent }
+     * 
+     * Se ninguem não passar nenhum parâmetro, o método irá receber a última url
+     * que o usuário está.
     */
     handleLogin(path: string = this.lastUrl) {
         this.router.navigate(['/login', btoa(path)]) // btoa(str): 

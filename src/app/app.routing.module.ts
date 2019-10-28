@@ -33,8 +33,8 @@ const routes: Routes = [
     { path: 'restaurants', component: RestaurantsComponent },
 
     /**
-     * LoggedInGuard é uma classe que implementa a interface CanLoad para ser um guarda, decidindo se as crianças 
-     * podem ser carregadas
+     * LoggedInGuard é uma classe que implementa a interface CanLoad e CanActivate para ser um guarda, decidindo 
+     * se as crianças podem ser carregadas.
      */
     { path: 'order', loadChildren: './order/order.module#OrderModule', canLoad: [LoggedInGuard], canActivate: [LoggedInGuard] },
     { path: 'order-summary', component: OrderSummaryComponent },
