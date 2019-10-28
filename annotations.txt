@@ -13,26 +13,15 @@ Delivery de comida online
 - Breve introdução ao typescript;
 
 # Conceitos de Reactive Programming
-Reactive Programming: A idéia de programação reativa é simples: Um evento acontece e os que estão interessados são notificados e reagem a ele. A idéia é baseada 
-num padrão bem comum na web chamado de observer. Nesse padrão, vamos ter um objeto que é o foco de interesse e teremos outros objetos interessados em alguma 
-mudança nesse primeiro objeto, que são os listeners. Os listeners se inscrevem esperando uma mudança, ou melhor um evento. Quando o evento acontece, o listener 
-que é o interessado executa uma ação. Essa é a idéia base.
+Reactive Programming: A idéia de programação reativa é simples: Um evento acontece e os que estão interessados são notificados e reagem a ele. A idéia é baseada num padrão bem comum na web chamado de observer. Nesse padrão, vamos ter um objeto que é o foco de interesse e teremos outros objetos interessados em alguma mudança nesse primeiro objeto, que são os listeners. Os listeners se inscrevem esperando uma mudança, ou melhor um evento. Quando o evento acontece, o listener que é o interessado executa uma ação. Essa é a idéia base.
 
-Em reactive programming, os eventos vem em forma de streams, ou melhor dizendo, em uma sequencia de eventos que podem ser modificados ou até transformados numa 
-nova cadêia de eventos. Então, cada evento que acontece gera uma notificação aos objetos interessados. Uma sequencia de eventos junto com a notificação de 
-interessados. Reactive Programming é a combinação de dois padrões: iterator porque vai de item a item na stream; mais observer porque notifica os listeners 
-interessados.
+Em reactive programming, os eventos vem em forma de streams, ou melhor dizendo, em uma sequencia de eventos que podem ser modificados ou até transformados numa nova cadêia de eventos. Então, cada evento que acontece gera uma notificação aos objetos interessados. Uma sequencia de eventos junto com a notificação de interessados. Reactive Programming é a combinação de dois padrões: iterator porque vai de item a item na stream; mais observer porque notifica os listeners interessados.
 
 Em Angular, várias partes do framework são implementadas em cima desse conceito. Por exemplo:
-- Ao realizar uma chamada HTTP ao backend, parte da aplicação vai se inscrever e esperar pela resposta, que é o evento. Quando o evento acontecer, ou seja, 
-quando a resposta chegar, a sua aplicação reage a ela e extrai os dados necessários para preencher um componente ou uma informação na tela.
-- Um outro exemplo que usa reactive programming dentro do Angular é quando desejamos saber quando os parâmetros das rotas mudam, mesmo padrão, você se inscreve 
-e espera pela resposta.
+- Ao realizar uma chamada HTTP ao backend, parte da aplicação vai se inscrever e esperar pela resposta, que é o evento. Quando o evento acontecer, ou seja, quando a resposta chegar, a sua aplicação reage a ela e extrai os dados necessários para preencher um componente ou uma informação na tela.
+- Um outro exemplo que usa reactive programming dentro do Angular é quando desejamos saber quando os parâmetros das rotas mudam, mesmo padrão, você se inscreve e espera pela resposta.
 
-A biblioteca que o angular usa para reactive programming é a RXJS, chamada de reactive extensions. No RXJS o objeto principal é o Observable. No dia a dia, 
-talvez a gente nem precise criar objetos do tipo Observable, porque na maioria dos casos a aplicação estará ouvindo eventos produzidos pelo Angular. O 
-Observable possui uma série de funções ou operadores para inscrição e manipulação de eventos, mas existe uma similaridade de funções com outro tipo bem 
-conhecido, que é o array. No exemplo abaixo, temos métodos comuns a ambos:
+A biblioteca que o angular usa para reactive programming é a RXJS, chamada de reactive extensions. No RXJS o objeto principal é o Observable. No dia a dia, talvez a gente nem precise criar objetos do tipo Observable, porque na maioria dos casos a aplicação estará ouvindo eventos produzidos pelo Angular. O Observable possui uma série de funções ou operadores para inscrição e manipulação de eventos, mas existe uma similaridade de funções com outro tipo bem conhecido, que é o array. No exemplo abaixo, temos métodos comuns a ambos:
 [1, 2, 3, 4, 5]
     .map( x => x+3 )
     .filter( x => x%2 == 0 )
@@ -43,14 +32,11 @@ Observable.from( [1, 2, 3, 4, 5] ) ----------------------------------------- (ST
     .filter( x => x%2 == 0 ) ------------------------------------------------- filter, serve para filtrá-los
     .subscribe( x => console.log(x) ) // 4, 6, 8 ----------------------------- similar ao forEach, pois cada item do array será 
                                                                              passado pra função do argumento do método subscribe (LISTENER*)
-Podemos nos perguntar, por que não utilizar Promisses? Uma das grandes diferenças entre Observable e Promisses é que Observables continuam disparando eventos
-até que sejam explicitamente fechados. Já Promisses são consideradas resolvidas após a execução do primeiro evento. Isso dá um pouco mais de flexibilidade ao
-Observable, como por exemplo, a capacidade de utilizar WebSockets.
+Podemos nos perguntar, por que não utilizar Promisses? Uma das grandes diferenças entre Observable e Promisses é que Observables continuam disparando eventos até que sejam explicitamente fechados. Já Promisses são consideradas resolvidas após a execução do primeiro evento. Isso dá um pouco mais de flexibilidade ao Observable, como por exemplo, a capacidade de utilizar WebSockets.
     Observable => Multiplos eventos
     Promisses => Um evento
 
-Se formos olhar, esse exemplo da API HTTP do Angular, vamos observar que os métodos retornam Observable<Response>, um dos objetos principais do RXJS. Na maioria
-dos casos vamos transformar a resposta e colher o dado; a requisição é feita sempre depois que a aplicação se inscreve usando o método subscribe.
+Se formos olhar, esse exemplo da API HTTP do Angular, vamos observar que os métodos retornam Observable<Response>, um dos objetos principais do RXJS. Na maioria dos casos vamos transformar a resposta e colher o dado; a requisição é feita sempre depois que a aplicação se inscreve usando o método subscribe.
 this.http.get( '/url' )
     .map( response => response.json() )
     .subscribe( data => this.mydata = data )
@@ -67,14 +53,7 @@ this.http.get( '/url', JSON.stringfy(myData) )
     .map( response => result.id )
     .subscribe( data => this.mydata = data )
 
-Quando um objeto se inscreve em um Observable (subscribe), será necessário remover a inscrição posterior (unsubscribe) para evitar memory leaks. Mesmo que um 
-componente saia de cena, ou seja, a página muda e o componente é descartado, o listener que foi inscrito pode continuar sendo chamado. Então, nesses casos é 
-importante realizar o cancelamento da inscrição (unsubscribe). 
-O Angular trás algo positivo: os Observables retornados pela API HTTP, pelos parâmetros do Router ou pelo Pipe Async não precisam de cancelamento de inscrição. 
-Geralmente, quem vai acessar a API HTTP do Angular são os serviços da aplicação. Então é uma boa prática realizar um tratamento de erro básico nessa camada 
-usando o operador 'catch'; depois de um erro o Observable vai parar de enviar eventos. O método 'catch' recebe o objeto de um erro e tem que devolver um outro 
-Observable. No exemplo abaixo, um Observable que propaga um erro pra cima:
-
+Quando um objeto se inscreve em um Observable (subscribe), será necessário remover a inscrição posterior (unsubscribe) para evitar memory leaks. Mesmo que um componente saia de cena, ou seja, a página muda e o componente é descartado, o listener que foi inscrito pode continuar sendo chamado. Então, nesses casos é importante realizar o cancelamento da inscrição (unsubscribe). O Angular trás algo positivo: os Observables retornados pela API HTTP, pelos parâmetros do Router ou pelo Pipe Async não precisam de cancelamento de inscrição. Geralmente, quem vai acessar a API HTTP do Angular são os serviços da aplicação. Então é uma boa prática realizar um tratamento de erro básico nessa camada usando o operador 'catch'; depois de um erro o Observable vai parar de enviar eventos. O método 'catch' recebe o objeto de um erro e tem que devolver um outro Observable. No exemplo abaixo, um Observable que propaga um erro pra cima:
 save( myData ) {
     return this.http.post( '/url', JSON.stringfy(myData) )
         .map( response => response.json() )
@@ -92,11 +71,7 @@ $ npm install -g json-server
 
 
 # Tratamento de Erros com o Operador Catch
-Existem duas formas de tratar erros no Angular: uma é implementando a interface ErroHandler e criando uma classe que faz um tratamento de erro global, 
-para isso essa classe deve ser configurada como um provider da aplicação do mesmo jeito que foi declarado o RestaurantService. A outra forma de tratamento de 
-erros é utilizar o operador catch() de Observable. Sempre que a gente tem um erro numa sequencia de streams, o Observable vai ser fechado. Então, na hora de tratar
-o erro, teremos uma chance de logar o erro mas para isso vamos ter que devolver um outro Observable, dai decidimos se queremos trocar por uma outra sequencia ou 
-se queremos simplemente disparar um erro.
+Existem duas formas de tratar erros no Angular: uma é implementando a interface ErroHandler e criando uma classe que faz um tratamento de erro global, para isso essa classe deve ser configurada como um provider da aplicação do mesmo jeito que foi declarado o RestaurantService. A outra forma de tratamento de erros é utilizar o operador catch() de Observable. Sempre que a gente tem um erro numa sequencia de streams, o Observable vai ser fechado. Então, na hora de tratar o erro, teremos uma chance de logar o erro mas para isso vamos ter que devolver um outro Observable, dai decidimos se queremos trocar por uma outra sequencia ou se queremos simplemente disparar um erro.
 
 # Parametrizando as Rotas
 Nos tópicos passados...
@@ -121,14 +96,9 @@ export class MyComponent implements OnInit {
     }
 }
 
-O snapshot é muito útil quando o componente não se preocupa se a rota vai mudar e o nosso componente sai de cena e volta depois, sendo destruido e configurado
-novamente. Esse é o caso mais comum e provavelmente o que mais vamos fazer em uma aplicação Angular. Mas, há casos em que o componente ainda vai estar na
-tela e precisa se atualizar sempre que um item é acionado como no exemplo de meche detalhe.
+O snapshot é muito útil quando o componente não se preocupa se a rota vai mudar e o nosso componente sai de cena e volta depois, sendo destruido e configurado novamente. Esse é o caso mais comum e provavelmente o que mais vamos fazer em uma aplicação Angular. Mas, há casos em que o componente ainda vai estar na tela e precisa se atualizar sempre que um item é acionado como no exemplo de meche detalhe.
 
-Sempre que escolher um item numa lista, o detalhe desse item será exibido. Se clicarmos em outro item, o detalhe precisa mostrar a nova informação, sem sair
-de cena. Se observarmos bem, ambos os componentes de lista e detalhes estão ativos na tela e o componente detalhe precisa se atualizar a cada clique. Esse
-é o segundo cenário.
-
+Sempre que escolher um item numa lista, o detalhe desse item será exibido. Se clicarmos em outro item, o detalhe precisa mostrar a nova informação, sem sair de cena. Se observarmos bem, ambos os componentes de lista e detalhes estão ativos na tela e o componente detalhe precisa se atualizar a cada clique. Esse é o segundo cenário.
 No segundo caso:
 export class MyComponent implements OnInit {
     myObj: any
@@ -152,10 +122,7 @@ Essas são as duas formas de obter parâmetros em angular.
 
 
 # O que são Template forms
-Forma declarativa de configurar formulários no template do componente. Com Template Forms usamos a diretiva
-'ngModel' nos inputs que devem ser controlados pelo framework, muito similar ao AngularJS. Sempre que declaramos
-um form num template, o Angular associa a diretiva 'ngForm' de forma implícita. Com essa diretiva podemos determinar
-a validade do form, o seu valor, e outros estados como dirty, pristine e touched.
+Forma declarativa de configurar formulários no template do componente. Com Template Forms usamos a diretiva 'ngModel' nos inputs que devem ser controlados pelo framework, muito similar ao AngularJS. Sempre que declaramos um form num template, o Angular associa a diretiva 'ngForm' de forma implícita. Com essa diretiva podemos determinar a validade do form, o seu valor, e outros estados como dirty, pristine e touched.
 <form> --------------------------------------------------------------------------- ngForm
     <input type="text" name="name" />
 </form>
@@ -165,11 +132,9 @@ Com Template Forms é preciso usar a diretiva 'ngModel', lembrando que o atribut
     <input type="text" name="name" ngModel />
 </form>
 
-Uma vez associada essa diretiva, o form passa a ficar ciente do valor do campo, da forma que se o campo for válido,
-o form fica válido; se o campo ficar inválido, o form também se torna inválido.
+Uma vez associada essa diretiva, o form passa a ficar ciente do valor do campo, da forma que se o campo for válido, o form fica válido; se o campo ficar inválido, o form também se torna inválido.
 
-Podemos usar também o one-way-binding com 'ngModel' associando-a a uma propriedade de um componente. Nesse caso, apenas
-quando o valor do componente mudar, o campo também é atualizado. O oposto não é verdadeiro.
+Podemos usar também o one-way-binding com 'ngModel' associando-a a uma propriedade de um componente. Nesse caso, apenas quando o valor do componente mudar, o campo também é atualizado. O oposto não é verdadeiro.
 <form>
     <input type="text" name="name" [ngModel]="username" />
 </form>
@@ -179,9 +144,7 @@ export class UserComponent {
     username: string = "Nome do Usuário"
 }
 
-Para que o valor da propriedade do componente esteja atualizada como o input é necessário usar two-way-binding. Onde usamos
-tanto os colchetes como os parentesis. Nesse caso, se o campo mudar o valor da propriedade no componente também muda. Essa
-sintaxe é conhecida como 'banana in a box'.
+Para que o valor da propriedade do componente esteja atualizada como o input é necessário usar two-way-binding. Onde usamos tanto os colchetes como os parentesis. Nesse caso, se o campo mudar o valor da propriedade no componente também muda. Essa sintaxe é conhecida como 'banana in a box'.
 <form>
     <input type="text" name="name" [(ngModel)]="username" />
 </form>
@@ -191,8 +154,7 @@ export class UserComponent {
     username: string = "Nome do Usuário"
 }
 
-Por último, podemos obter uma referência a 'ngForm' através de template variable e construir expressões que ajudam a controlar o
-acesso a certos componentes do form, como por exemplo, habilitar um botão baseado na validade do próprio form.
+Por último, podemos obter uma referência a 'ngForm' através de template variable e construir expressões que ajudam a controlar o acesso a certos componentes do form, como por exemplo, habilitar um botão baseado na validade do próprio form.
 <form #myForm="ngForm">
     <input type="text" name="name" ngModel />
     <input type="text" name="lastname" ngModel />
@@ -206,11 +168,9 @@ A diretiva ngModel disponibiliza os seguintes estados que podem ser verificados 
 - Valid e Invalid: Diz respeito se o valor do campo está de acordo com as regras de validação;
 - Pristine e Dirty: Pristine representa o estado inicial do campo ou do form. Uma vez que o usuário digita no campo, ele se
 torna Dirty e não volta mais;
-- Untouched e Touched: Touched indica quando o usuário entra no campo. A diferença entre dirty e touched é que para o campo ficar
-com o estado dirty o usuário precisa modificá-lo.
+- Untouched e Touched: Touched indica quando o usuário entra no campo. A diferença entre dirty e touched é que para o campo ficar com o estado dirty o usuário precisa modificá-lo.
 
-Para saber em qual estado um campo se encontra a gente precisa obter uma referência para a diretiva ngModel do campo. A gente
-faz isso com template variables. Uma vez feito, podemos usar a variavel em qualquer lugar para indicar o status do campo para o usuário.
+Para saber em qual estado um campo se encontra a gente precisa obter uma referência para a diretiva ngModel do campo. A gente faz isso com template variables. Uma vez feito, podemos usar a variavel em qualquer lugar para indicar o status do campo para o usuário.
 <form>
     <input name="name" [ngModel]="username" #ipt="ngModel" />
     <span *ngIf="ipt.invalid">Nome inválido</span>
@@ -221,26 +181,12 @@ As validações que podemos atribuir a um campo são:
 - Pattern-Regex: que recebe um padrão de expressão regular;
 - Minlenght e Maxlenght: que recebe um número e verificar se o valor está atendendo ao especificado.
 
-Para dar um feedback visual ao usuário, o Angular associa ao campos e ao form as classes css ng-valid, ng-invalid, ng-pristine, ng-dirty,
-ng-untouched e ng-touched.
+Para dar um feedback visual ao usuário, o Angular associa ao campos e ao form as classes css ng-valid, ng-invalid, ng-pristine, ng-dirty, ng-untouched e ng-touched.
 
 # Criando um componente de Input (Content Projection)
-Uma vez que encapsulamos um Input Text dentro de um componente, o form perde a rastreabilidade desse Input, o form não consegue mais 
-enxerga-lo. Dessa forma, temos duas saídas para esse problema: a primeira saída é tranformar nosso input num componente container, aonde 
-a gente aplica apenas o estilo visual e deixa com que o componente parent, no caso, o componente de compra (order) passe o input text 
-pra a gente, isso é chamado de Content Projection. No segundo cenário deixamos o nosso componente completamente isolado dentro do input
-e a gente implementa uma interface chamada ControlValueAccessor que ela serve de ponte para as diretivas usadas de apoio ao formulário,
-como ngModel e o nosso proprio componente. 
+Uma vez que encapsulamos um Input Text dentro de um componente, o form perde a rastreabilidade desse Input, o form não consegue mais enxerga-lo. Dessa forma, temos duas saídas para esse problema: a primeira saída é tranformar nosso input num componente container, aonde a gente aplica apenas o estilo visual e deixa com que o componente parent, no caso, o componente de compra (order) passe o input text pra a gente, isso é chamado de Content Projection. No segundo cenário deixamos o nosso componente completamente isolado dentro do input e a gente implementa uma interface chamada ControlValueAccessor que ela serve de ponte para as diretivas usadas de apoio ao formulário, como ngModel e o nosso proprio componente. 
 
-No caso onde temos um input text e aplicamos muita coisa a ele, basicamente relacionada ao visual é interessante usarmos a primeira 
-estratégia, onde criamos um container e aplicamos apenas a parte visual. Para fazermos Content Projection, precisamos utilizar uma
-tag especifica chamada <ng-content>. Ao invés de utilizar o input text no novo componente que criamos, simplesmente vamos troca-lo
-por uma tag chamada de <ng-content></ng-content>. Similar ao <router-outlet>, onde marcamos uma região que através de uma navegação,
-entramos com o componente correspondente àquele caminho, no caso do <ng-content> que também representa um espaço onde vai entrar o 
-conteúdo, conteúdo esse que vai ficar entre as tags do componente quando alguém estiver usando o componente recém criado. Sendo assim,
-colocaremos o <input> na página e dentro dele vamos colocar o conteúdo que deve aparecer dentro de <ng-content>. Chamamos essa técnica
-de Content Projection.
-
+No caso onde temos um input text e aplicamos muita coisa a ele, basicamente relacionada ao visual é interessante usarmos a primeira estratégia, onde criamos um container e aplicamos apenas a parte visual. Para fazermos Content Projection, precisamos utilizar uma tag especifica chamada <ng-content>. Ao invés de utilizar o input text no novo componente que criamos, simplesmente vamos troca-lo por uma tag chamada de <ng-content></ng-content>. Similar ao <router-outlet>, onde marcamos uma região que através de uma navegação, entramos com o componente correspondente àquele caminho, no caso do <ng-content> que também representa um espaço onde vai entrar o conteúdo, conteúdo esse que vai ficar entre as tags do componente quando alguém estiver usando o componente recém criado. Sendo assim, colocaremos o <input> na página e dentro dele vamos colocar o conteúdo que deve aparecer dentro de <ng-content>. Chamamos essa técnica de Content Projection.
 <div class="form-group" [class.has-success]="hasSuccess()" [class.has-error]="hasError()">
   <label class="control-label sr-only" for="inputSuccess"><i class="fa fa-check"></i> {{label}}</label>
 
@@ -252,36 +198,22 @@ de Content Projection.
 
 
 # Módulos Angular
-São itens de configuração do framwork que servem para agregar componentes, diretivas, serviços ou pipes mas não só com o único objetivo 
-de organizar o código. Poderemos decidir o que vai ser exportado para fora do módulo e ainda como a injeção de dependênciasncias será configurada. 
-Além disso, existem coisas bem interessantes: imagine que tenhamos uma app relativamente grande e que seja acessada por milhares de usuários; é 
-bem provavel que esses usuários façam parte de setores diferentes de uma empresa, fazendo com que acessem informações bem distintas da aplicação. 
-Dessa forma, não é interessante carregar a aplicação para todos eles, uma parte vai estar interessada em apenas numa parte da aplicação. Com 
-módulos é possível dividir a aplicação em partes independentes e definir que essas partes não sejam carregadas de imediato, apenas quando 
-requisitadas. Com isso, o startup da aplicação ficará mais rápido, porque de inicio as pessoas não mais irão precisar esperar por algo que elas 
-não irão usar. Essa feature é chamada de lazy-loading ou carregamento tardio.
+São itens de configuração do framwork que servem para agregar componentes, diretivas, serviços ou pipes mas não só com o único objetivo de organizar o código. Poderemos decidir o que vai ser exportado para fora do módulo e ainda como a injeção de dependênciasncias será configurada. Além disso, existem coisas bem interessantes: imagine que tenhamos uma app relativamente grande e que seja acessada por milhares de usuários; é bem provavel que esses usuários façam parte de setores diferentes de uma empresa, fazendo com que acessem informações bem distintas da aplicação. Dessa forma, não é interessante carregar a aplicação para todos eles, uma parte vai estar interessada em apenas numa parte da aplicação. Com módulos é possível dividir a aplicação em partes independentes e definir que essas partes não sejam carregadas de imediato, apenas quando requisitadas. Com isso, o startup da aplicação ficará mais rápido, porque de inicio as pessoas não mais irão precisar esperar por algo que elas não irão usar. Essa feature é chamada de lazy-loading ou carregamento tardio.
 
 Tipos de Módulos
-- Root Module: Contém as declarações dos componentes que são usadas na aplicação inteira. Esse é o módulo que faz o bootstrap da aplicação. Em 
-aplicações pequenas, ter tudo no 'root-module' é o suficiente. Mas, a medida que a aplicação cresce pode ser necessário organizar os componentes 
-em outros módulos.
+- Root Module: Contém as declarações dos componentes que são usadas na aplicação inteira. Esse é o módulo que faz o bootstrap da aplicação. Em aplicações pequenas, ter tudo no 'root-module' é o suficiente. Mas, a medida que a aplicação cresce pode ser necessário organizar os componentes em outros módulos.
 - Shared Module: Contém componentes que são usados por outros módulos da aplicação.
-- Core Module: Contém todos os serviços da aplicação. Esse módulo não contém componentes, apenas serviços. Um módulo similar é o Http do próprio 
-Angular, sendo um exemplo de 'core-module'.
+- Core Module: Contém todos os serviços da aplicação. Esse módulo não contém componentes, apenas serviços. Um módulo similar é o Http do próprio Angular, sendo um exemplo de 'core-module'.
 - Feature Module: São módulos que contém as implementações das funcionalidades da aplicação.
 
-Separar em módulos pode ajudar a tornar o carregamento da aplicação mais rápido porque podemos escolher apenas um conjunto de features para serem 
-carregadas de início.
+Separar em módulos pode ajudar a tornar o carregamento da aplicação mais rápido porque podemos escolher apenas um conjunto de features para serem carregadas de início.
 Resumo:
 - Shared: Componentes, Diretivas e Pipes
 - Feature: Feat. Componentes, Diretivas, etc. São Módulos com funcionalidades da aplicação que importam o share-module.
 - Core: Não importa nada da aplicação, apenas serviços.
 - Root: Referencia o core-module e talvez, os outros módulos também.
 
-Para declarar um módulo, precisamos de uma classe associada com o Decorator @NgModule, muito similar ao root-module sendo que a única diferença é 
-o fato de não ter o bootstrap. Ainda na declaração de um módulo, precisamos listar os componentes que serão visíveis de fora do módulo usando o 
-atributo 'exports' (sem isso os componentes são visíveis apenas internamente).
-
+Para declarar um módulo, precisamos de uma classe associada com o Decorator @NgModule, muito similar ao root-module sendo que a única diferença é o fato de não ter o bootstrap. Ainda na declaração de um módulo, precisamos listar os componentes que serão visíveis de fora do módulo usando o atributo 'exports' (sem isso os componentes são visíveis apenas internamente).
 @NgModule({
 	declarations: [...],
 	imports: [...],
@@ -357,10 +289,61 @@ npm start --env=prod
 # Estratégias de URL (Location Strategy)
 PATH vs HASH
 
-A estratégia por caminho exige que o servidor retorne um index.html sempre que houver um 404. No hash essa configuração
-não é necessária. Se o ambiente em que vamos fazer o deploy não expõe as configurações, a estratégia por hash pode ser 
-uma saída simples.
+A estratégia por caminho exige que o servidor retorne um index.html sempre que houver um 404. No hash essa configuração não é necessária. Se o ambiente em que vamos fazer o deploy não expõe as configurações, a estratégia por hash pode ser uma saída simples.
 
 # Publicando no Apache
-Em optar por usar a estratégia por caminho (path), devemos configurar o arquivo pricipal 'httpd.conf' ou adicionar o arquivo
-.htaccess no diretório raiz da aplicação.
+Em optar por usar a estratégia por caminho (path), devemos configurar o arquivo pricipal 'httpd.conf' ou adicionar o arquivo .htaccess no diretório raiz da aplicação.
+
+
+# O que são Interceptors?
+HttpInterceptors são uma grande adição feita ao Angular pelo novo módulo HttpClient. Com esse mecanismo, uma aplicação consegue capturar o momento anterior ou posteriror a uma chamada HTTP e fazer alterações comuns a todas as chamadas, como por exemplos: atribuir um novo header a requisição dinamicamente sem precisar colocar em vários pontos da aplicação, uma grande vantagem em termos de manutenção.
+
+Ilustrando o exemplo:
+Quando a aplicação usa o serviço HttpClient é porque está querendo fazer uma requisição para o backend, ou seja, acessar o serviço. Sem Interceptors a requição atinge o backend diretamente. Quando a aplicação configura um HTTPInterceptor, antes da chamada chegar ao backend, o Interceptor vai ser acionado e este terá um achance para modificar a requisição. Um exemplo, um Interceptor adiciona um header personalizado chamado X-Custom-Header. Quando o Interceptor terminar o seu trabalho, o request será feito e o header adicionado chegará ao backend como se tivesse sido adicionado por uma classe de serviço qualquer. Interceptor é um padrão de projeto bem versátil e dá pra fazer muita coisa interessante em uma aplicação. Abaixo citamos três exemplos:
+- Logging: O Interceptor pode ser criado para logar quando a requisição está sendo feita e com o que está indo no request.
+- Profiling: O Interceptor também pode ser usado para calcular o tempo que as requisições ao backend estão levando. De modo que se descubra quais são os pontos que precisam de otimização.
+- Error Handling: O Interceptor pode interceptar a resposta também, e se for o caso, promover um tratamento de erro global para a aplicação.
+
+1. Declaração de um Interceptor em Angular
+export class MyCustomHeaderInterceptor implements HttpInterceptor {
+    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        const myRequest = request.clone({
+            setHeaders: {'X-Custom-Header': 'Value'}
+        })
+        return next.handle(myRequest)
+    }
+}
+
+2. Registrando um Interceptor
+Para configurar um Interceptor é preciso registrá-lo como:
+@NgModule({
+    providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+
+            // O atributo multi é usado para indicar que o Interceptor fará parte da classe de Interceptors já registrados com esse mesmo token.
+            // Todo Interceptor é sempre registrado para o mesmo token. Isso significa que, quando o Angular obtiver o valor desse token, ele vai
+            // ter acesso na verdade a uma lista de Interceptors.
+            useClass: MyCustomHeaderInterceptor, multi: true
+        },
+        {
+            // Ainda é possível declarar múltiplos Interceptors na aplicação e a ordem em que eles serão chamados respeitará a ordem dessa declaração.
+            // Nesse caso, MyCustomHeaderInterceptor será chamado antes de MyAnotherInterceptor
+            provide: HTTP_INTERCEPTORS,
+            useClass: MyAnotherInterceptor, multi: true
+        },
+    ]
+})
+export class AppModule { }
+
+3. Exemplo de como interceptar uma HttpResponse:
+export class MyResponseInterceptor implements HttpInterceptor {
+    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        return next.handle(request)
+            .do(response => console.log(response.headers))
+            .catch(error => {
+                if(error.status === 401) { /*.......*/ }
+                return Observable.throw(error)
+            })
+    }
+}

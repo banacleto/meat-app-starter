@@ -1,10 +1,12 @@
 import { CommonModule } from "@angular/common"; // Módulo que possui as diretivas básicas (importado automaticamente pelo BrowserModule)
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { ModuleWithProviders, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { LeaveOrderGuard } from "app/order/leave-order.guard";
 import { OrderService } from "app/order/order.service";
 import { ShoppingCartService } from "app/restaurant-detail/shopping-cart/shopping-cart.service";
 import { RestaurantService } from "app/restaurants/restaurants.service";
+import { AuthInterceptor } from "app/security/auth.interceptor";
 import { LoggedInGuard } from "app/security/loggedin.guard";
 import { LoginService } from "app/security/login/login.service";
 import { InputComponent } from "./input/input.component";
@@ -35,7 +37,7 @@ export class SharedModule { // Exemplo de Shared Module. Este módulo é inicial
         return {
             ngModule: SharedModule,
             providers: [ShoppingCartService, RestaurantService, OrderService,
-                NotificationService, LoginService, LoggedInGuard, LeaveOrderGuard]
+                NotificationService, LoginService, LoggedInGuard, LeaveOrderGuard, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }]
         }
     }
 }
