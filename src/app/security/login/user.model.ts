@@ -1,5 +1,8 @@
 export interface User {
-    name: string,
+    firstName: string,
+    middleName: string,
+    lastName: string,
+    fullName: string,
     email: string,
     password: string,
     accessToken: string

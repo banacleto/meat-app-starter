@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.loginService.login(this.loginForm.value.email, this.loginForm.value.password)
-      .subscribe(user => this.notificationService.notify(`Bem vindo, ${user.name}`),
+      .subscribe(user => this.notificationService.notify(`Bem vindo, ${user.firstName}`),
         response => this.notificationService.notify(response.error.msg),
         () => { this.router.navigate([atob(this.navigateTo)]) }) // atob(str): decoding the str
   }

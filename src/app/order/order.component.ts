@@ -1,13 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-
+import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-
-import { RadioOption } from 'app/shared/radio/radio-option.model';
-import { OrderService } from './order.service';
 import { CarItem } from 'app/restaurant-detail/shopping-cart/car-item.model';
-import { Order, OrderItem } from './order.model';
 import { LoginService } from 'app/security/login/login.service';
+import { RadioOption } from 'app/shared/radio/radio-option.model';
+import { Order, OrderItem } from './order.model';
+import { OrderService } from './order.service';
+
+
 
 @Component({
   selector: 'mt-order',
@@ -17,10 +17,9 @@ export class OrderComponent implements OnInit {
 
   emailPattern = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
   numberPattern = /^[0-9]*$/
-
   orderForm: FormGroup
-
   delivery: number = 8
+  orderId: string
 
   paymentOptions: RadioOption[] = [
     { label: 'Dinheiro', value: 'DIN' },
@@ -33,7 +32,7 @@ export class OrderComponent implements OnInit {
 
   ngOnInit() {
     this.orderForm = this.formBuilder.group({
-      name: this.formBuilder.control(this.loginService.user.name, [Validators.required, Validators.minLength(5)]),
+      name: this.formBuilder.control(this.loginService.user.fullName, [Validators.required, Validators.minLength(5)]),
       email: this.formBuilder.control(this.loginService.user.email, [Validators.required, Validators.pattern(this.emailPattern)]),
       emailConfirmation: this.formBuilder.control(this.loginService.user.email, [Validators.required, Validators.pattern(this.emailPattern)]),
       address: this.formBuilder.control('', [Validators.required, Validators.minLength(5)]),
@@ -83,9 +82,13 @@ export class OrderComponent implements OnInit {
     order.orderItems = this.cartItems().map((item: CarItem) => new OrderItem(item.quantity, item.menuItem._id))
 
     this.orderService.checkOrder(order).subscribe((orderId: string) => {
+      this.orderId = orderId
       this.router.navigate(['/order-summary'])
       this.orderService.clear()
     })
   }
 
+  isOrderCompleted(): boolean {
+    return this.orderId !== undefined
+  }
 }

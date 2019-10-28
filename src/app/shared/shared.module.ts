@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common"; // Módulo que possui as diretivas básicas (importado automaticamente pelo BrowserModule)
 import { ModuleWithProviders, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { LeaveOrderGuard } from "app/order/leave-order.guard";
 import { OrderService } from "app/order/order.service";
 import { ShoppingCartService } from "app/restaurant-detail/shopping-cart/shopping-cart.service";
 import { RestaurantService } from "app/restaurants/restaurants.service";
@@ -16,7 +17,7 @@ import { RatingComponent } from "./rating/rating.component";
 @NgModule({
     // Declarando todos os componentes que teremos dentro do módulo
     declarations: [InputComponent, RadioComponent, RatingComponent, SnackbarComponent],
-    
+
     // Importanto as dependências do nosso módulo
     imports: [CommonModule, FormsModule, ReactiveFormsModule],
 
@@ -33,8 +34,8 @@ export class SharedModule { // Exemplo de Shared Module. Este módulo é inicial
     static forRoots(): ModuleWithProviders {
         return {
             ngModule: SharedModule,
-            providers: [ShoppingCartService, RestaurantService, OrderService, 
-                NotificationService, LoginService, LoggedInGuard]
+            providers: [ShoppingCartService, RestaurantService, OrderService,
+                NotificationService, LoginService, LoggedInGuard, LeaveOrderGuard]
         }
     }
 }
