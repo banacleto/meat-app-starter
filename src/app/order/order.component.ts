@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CarItem } from 'app/restaurant-detail/shopping-cart/car-item.model';
 import { LoginService } from 'app/security/login/login.service';
@@ -30,16 +30,36 @@ export class OrderComponent implements OnInit {
   constructor(private orderService: OrderService, private loginService: LoginService,
     private router: Router, private formBuilder: FormBuilder) { }
 
+  /**
+   * Até o Angular 4, quando digitávamos em um campo do formulário, a atualização e a validação, aconteciam apenas no evento change do campo.
+   * Então, a cada letra digitada, esse processo era disparado e a gente tinha o feedback instântaneo. Esse comportamento é o padrão no Angular 5
+   * e 6, mas agora podemos mudar isso para outros dois eventos: blur e submit.
+   * 
+   * Se tivessemos utilizando Templat Forms, também poderíamos fazer essa modificação:
+   * i. Associando ao campo que queremos alterar o comportamento: 
+   *  <input name="name" ngModel [ngModelOptions]="{ updateOn: 'blur' }">
+   * ii. Aplicando para todos os campos do formulário: 
+   *  <form [ngFormOptions]="{ updateOn: 'blur' }">
+   *   <input ...>
+   *  </form>
+   */
   ngOnInit() {
-    this.orderForm = this.formBuilder.group({
-      name: this.formBuilder.control(this.loginService.user.fullName, [Validators.required, Validators.minLength(5)]),
+    /**
+     * Alterando de 'this.formBuilder.group' para new FormGroup(...), podemos aplicar o evento 'blur' a todos os campos do formulário.
+     */
+    this.orderForm = new FormGroup({
+      /**
+       * Como exemplo, estamos aplicando o evento 'blur' individualmente ao campo. Para isso, substituimos 'this.formBuilder.control' por 
+       * 'new FormControl(...)', pois ele já tem a capacidade de receber essas informações.
+       */
+      name: new FormControl(this.loginService.user.fullName, { validators: [Validators.required, Validators.minLength(5)], updateOn: 'blur' }),
       email: this.formBuilder.control(this.loginService.user.email, [Validators.required, Validators.pattern(this.emailPattern)]),
       emailConfirmation: this.formBuilder.control(this.loginService.user.email, [Validators.required, Validators.pattern(this.emailPattern)]),
       address: this.formBuilder.control('', [Validators.required, Validators.minLength(5)]),
-      number: this.formBuilder.control('', [Validators.required, Validators.pattern(this.numberPattern)]),
+      number: new FormControl('', [Validators.required, Validators.pattern(this.numberPattern)]),
       optionalAddress: this.formBuilder.control(''),
       paymentOption: this.formBuilder.control('', Validators.required)
-    }, { validator: OrderComponent.equalsTo })
+    }, { validators: [OrderComponent.equalsTo], updateOn: 'blur' })
   }
 
   // Função capaz de validar um ou mais campos utilizados no form
