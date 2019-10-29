@@ -365,3 +365,17 @@ O pipe date teve algumas alterações no formato passado devido a nova implement
 
 Isso muda, quando:
 <span> {{ today | date: 'dd/M/yyy' }} </span> => 22/A/2019 - Angular4 | 22/04/2019 -> Angular 5, 6
+
+
+# Melhorias no Processo de Compilação
+a) Preservando espaços em branco:
+i. Individualmente no componente: preserveWhitespaces: true
+ii. Em toda a aplicação (desenv): file: main.ts
+iii. Em toda a aplicação (prod): arquivo tsconfig.json
+
+Problemas no carregamento de CSS
+a) Remover "styles": [ {"input": "node_modules/font-awesome/css/font-awesome.min.css"}, ...] localizado em angular.json e adicionar no index.html <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+b) Para corrigir os problemas relacionados ao CSS em produção
+ng build --prod --extract-css=false
+cd dist/
+python -m SimpleHTTPServer 8080
