@@ -52,9 +52,9 @@ export class OrderComponent implements OnInit {
        * Como exemplo, estamos aplicando o evento 'blur' individualmente ao campo. Para isso, substituimos 'this.formBuilder.control' por 
        * 'new FormControl(...)', pois ele já tem a capacidade de receber essas informações.
        */
-      name: new FormControl(this.loginService.user.fullName, { validators: [Validators.required, Validators.minLength(5)], updateOn: 'blur' }),
-      email: this.formBuilder.control(this.loginService.user.email, [Validators.required, Validators.pattern(this.emailPattern)]),
-      emailConfirmation: this.formBuilder.control(this.loginService.user.email, [Validators.required, Validators.pattern(this.emailPattern)]),
+      name: new FormControl('', { validators: [Validators.required, Validators.minLength(5)], updateOn: 'blur' }),
+      email: this.formBuilder.control('', [Validators.required, Validators.pattern(this.emailPattern)]),
+      emailConfirmation: this.formBuilder.control('', [Validators.required, Validators.pattern(this.emailPattern)]),
       address: this.formBuilder.control('', [Validators.required, Validators.minLength(5)]),
       number: new FormControl('', [Validators.required, Validators.pattern(this.numberPattern)]),
       optionalAddress: this.formBuilder.control(''),
