@@ -379,3 +379,20 @@ b) Para corrigir os problemas relacionados ao CSS em produção
 ng build --prod --extract-css=false
 cd dist/
 python -m SimpleHTTPServer 8080
+
+
+# RxJS 6: Como Usar o Novo Operador "pipe"
+
+No RxJS 5,
+this.formControl.valueChanges()
+    .filter(text => text.length > 5)
+    .map(text => text.toUpperCase())
+    .subscribe(text => /* action */)
+
+No RxJS 6,
+this.formControl.valueChanges().pipe(
+    filter(text => text.length > 5),
+    map(text => text.toUpperCase())
+).subscribe(text => /* action */)
+
+Essa mudança permite duas coisas bem importantes: primeiro com funções simples podemos escrever nossas próprias soluções e adicionar na sequência de funções que usamos comparado ao pipe. E segundo, o processo de remoção escolha que não é mais usado é mais eficiente com funções do que com métodos de Observable. Então, teremos bundles menores com isso.

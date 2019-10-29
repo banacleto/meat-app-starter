@@ -1,9 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
-import 'rxjs/add/observable/timer';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/switchMap';
-import { Observable } from 'rxjs/Observable';
+import { timer } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 import { NotificationService } from '../notification.service';
 
 @Component({
@@ -41,16 +39,19 @@ export class SnackbarComponent implements OnInit {
 
     /**
      * Logo abaixo temos o refactoring para tornar os observables independentes entre si, colocando-os numa única configuração:
-     * a) O operador 'do' nos permite realizar uma operação na cadeia, ou seja, ao receber uma mensamgem será realizado uma determinada ação;
-     * b) O operador 'switchMap' troca os eventos que seriam emitidos. Assim como o operador 'map' troca a mensagem, o 'switchMap' troca o observable, 
+     * a) O operador pipe permite permite passar outras funções por parâmetro;
+     * b) O operador 'tap' nos permite realizar uma operação na cadeia, ou seja, ao receber uma mensagem será realizado uma determinada ação;
+     * c) O operador 'switchMap' troca os eventos que seriam emitidos. Assim como o operador 'map' troca a mensagem, o 'switchMap' troca o observable, 
      * e além de trocar o Observable, o 'switchMap' ainda faz o unsubscribe se quando uma nova mensagem chegar o Observable antigo ainda estiver ativo.
      */
     this.notificationService.notifier
-      .do(message => {
-        this.message = message
-        this.snackVisibility = 'visible'
-      }).switchMap(message => Observable.timer(1500))
-      .subscribe(timer => this.snackVisibility = 'hidden')
+      .pipe(
+        tap(message => {
+          this.message = message
+          this.snackVisibility = 'visible'
+        }),
+        switchMap(message => timer(1500))
+      ).subscribe(timer => this.snackVisibility = 'hidden')
   }
 
 }
