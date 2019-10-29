@@ -16,13 +16,7 @@
 
 ## 2. Iniciando o Backend
 
-### Instalando o json-server
-
-`npm install -g json-server`
-
-### Iniciando o serviço (raiz da aplicação)
-
-`json-server db.json`
+Seguir os passos em https://github.com/banacleto/meat-app-api-ts
 
 ## Goodies
 
