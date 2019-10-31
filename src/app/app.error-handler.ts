@@ -1,8 +1,8 @@
-import { HttpErrorResponse } from "@angular/common/http";
-import { ErrorHandler, Injectable, Injector, NgZone } from "@angular/core";
-import { NotificationService } from "./shared/messages/notification.service";
-import { LoginService } from "./security/login/login.service";
-// import {catchError, throwError} from "rxjs/operators"
+import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorHandler, Injectable, Injector, NgZone } from '@angular/core';
+import { NotificationService } from './shared/messages/notification.service';
+import { LoginService } from './security/login/login.service';
+// import {catchError, throwError} from 'rxjs/operators'
 
 @Injectable()
 export class ApplicationErrorHandler extends ErrorHandler {
@@ -13,21 +13,21 @@ export class ApplicationErrorHandler extends ErrorHandler {
     }
 
     handleError(errorResponse: HttpErrorResponse | any) {
-        if(errorResponse instanceof HttpErrorResponse) {
+        if (errorResponse instanceof HttpErrorResponse) {
             const message = errorResponse.error.msg
-            
+
             // Zona monitorada pelo Angular para corrigir o problema de falta de sincronismo da mensagem
-            this.zone.run(()=>{
-                switch(errorResponse.status) {
+            this.zone.run(() => {
+                switch (errorResponse.status) {
                     case 401:
                         this.injector.get(LoginService).handleLogin()
-                    break;
+                        break;
                     case 403:
                         this.notificationService.notify(message || 'Não autorizado.')
-                    break;
+                        break;
                     case 404:
                         this.notificationService.notify(message || 'Recurso não encontrado. Verifique console para mais detalhes.')
-                    break;
+                        break;
                 }
             })
         }

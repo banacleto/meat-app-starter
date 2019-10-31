@@ -1,7 +1,7 @@
-import { Injectable } from "@angular/core";
-import { NotificationService } from "app/shared/messages/notification.service";
-import { MenuItem } from "../menu-item/menu-item.model";
-import { CarItem } from "./car-item.model";
+import { Injectable } from '@angular/core';
+import { NotificationService } from 'app/shared/messages/notification.service';
+import { MenuItem } from '../menu-item/menu-item.model';
+import { CarItem } from './car-item.model';
 
 @Injectable()
 export class ShoppingCartService {
@@ -29,8 +29,9 @@ export class ShoppingCartService {
 
     decreaseQty(item: CarItem) {
         item.quantity = item.quantity - 1
-        if (item.quantity === 0)
+        if (item.quantity === 0) {
             this.removeItem(item)
+        }
     }
 
     removeItem(item: CarItem) {

@@ -25,8 +25,8 @@ import { NotificationService } from '../notification.service';
 })
 export class SnackbarComponent implements OnInit {
 
-  message: string = 'Help!'
-  snackVisibility: string = 'hidden'
+  message = 'Help!'
+  snackVisibility = 'hidden'
 
   constructor(private notificationService: NotificationService) { }
 
@@ -40,9 +40,12 @@ export class SnackbarComponent implements OnInit {
     /**
      * Logo abaixo temos o refactoring para tornar os observables independentes entre si, colocando-os numa única configuração:
      * a) O operador pipe permite permite passar outras funções por parâmetro;
-     * b) O operador 'tap' nos permite realizar uma operação na cadeia, ou seja, ao receber uma mensagem será realizado uma determinada ação;
-     * c) O operador 'switchMap' troca os eventos que seriam emitidos. Assim como o operador 'map' troca a mensagem, o 'switchMap' troca o observable, 
-     * e além de trocar o Observable, o 'switchMap' ainda faz o unsubscribe se quando uma nova mensagem chegar o Observable antigo ainda estiver ativo.
+     * b) O operador 'tap' nos permite realizar uma operação na cadeia, ou seja, ao receber uma mensagem será realizado uma determinada
+     * ação;
+     * c) O operador 'switchMap' troca os eventos que seriam emitidos. Assim como o operador 'map' troca a mensagem, o 'switchMap' troca
+     * o observable,
+     * e além de trocar o Observable, o 'switchMap' ainda faz o unsubscribe se quando uma nova mensagem chegar o Observable antigo ainda
+     * estiver ativo.
      */
     this.notificationService.notifier
       .pipe(
@@ -51,7 +54,7 @@ export class SnackbarComponent implements OnInit {
           this.snackVisibility = 'visible'
         }),
         switchMap(message => timer(1500))
-      ).subscribe(timer => this.snackVisibility = 'hidden')
+      ).subscribe(timr => this.snackVisibility = 'hidden')
   }
 
 }

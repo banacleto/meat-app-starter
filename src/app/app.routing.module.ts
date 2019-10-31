@@ -17,7 +17,7 @@ const routes: Routes = [
     { path: '', component: HomeComponent },
 
     /**
-     * Rota criada para permitir que o usuário, ao tentar acessar uma rota protegida, seja direcionado para a 
+     * Rota criada para permitir que o usuário, ao tentar acessar uma rota protegida, seja direcionado para a
      * tela de login e após se logar com sucesso, seja redirecionado para a tela anterior a de login.
      */
     { path: 'login/:to', component: LoginComponent },
@@ -33,7 +33,7 @@ const routes: Routes = [
     { path: 'restaurants', component: RestaurantsComponent },
 
     /**
-     * LoggedInGuard é uma classe que implementa a interface CanLoad e CanActivate para ser um guarda, decidindo 
+     * LoggedInGuard é uma classe que implementa a interface CanLoad e CanActivate para ser um guarda, decidindo
      * se as crianças podem ser carregadas.
      */
     { path: 'order', loadChildren: './order/order.module#OrderModule', canLoad: [LoggedInGuard], canActivate: [LoggedInGuard] },
@@ -53,7 +53,7 @@ const routes: Routes = [
      * Próxima vez que a nossa aplicação for carregada no browser, os módulos serão carregados
      * logo depois que os módulos principais forem aparecendo, ou seja, os que não são carregados usando
      * lazy-loading. Uma thread rodará em background carregando os demais módulos.
-     * 
+     *
      * Modificando a Estratégia de Navegação para usar HashLocationStrategy
      * Para saber mais: https://angular.io/guide/router#appendix-locationstrategy-and-browser-url-styles
      */

@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ContentChild, AfterContentInit } from '@angul
 
 /**
  * (I) Precisamos pegar uma referência NgModel que vai ser declarada no futuro, por quem estiver usando o meu
- * componente, vai ficar como filho do meu componente. Sempre que referenciamos um tipo, devemos importar 
+ * componente, vai ficar como filho do meu componente. Sempre que referenciamos um tipo, devemos importar
  * aquele tipo. Dessa forma, referenciamos NgModel.
  */
 import { NgModel, FormControlName } from '@angular/forms'
@@ -15,7 +15,7 @@ export class InputComponent implements OnInit, AfterContentInit {
 
   @Input() label: string
   @Input() errorMessage: string
-  @Input() showTip: boolean = true
+  @Input() showTip = true
 
   input: any
 

@@ -3,7 +3,7 @@ import { CanLoad, Route, ActivatedRouteSnapshot, RouterStateSnapshot, CanActivat
 import { LoginService } from './login/login.service';
 
 /**
- * LoggedInGuard é uma classe que implementa a interface CanLoad e CanActivate para ser um guarda, 
+ * LoggedInGuard é uma classe que implementa a interface CanLoad e CanActivate para ser um guarda,
  * decidindo se as crianças podem ser carregadas e quando devem ser carregadas.
  */
 @Injectable()
@@ -18,7 +18,7 @@ export class LoggedInGuard implements CanLoad, CanActivate {
         }
         return loggedIn
     }
-    
+
     /**
      * Determina se o usuário pode ou não carregar o módulo de compras, baseado no fato dele estar autenticado
      * ou não.
@@ -30,8 +30,8 @@ export class LoggedInGuard implements CanLoad, CanActivate {
 
     /**
      * Este método sempre será sempre chamado quando o módulo já estiver sido carregado e o usuário tentar acessá-lo.
-     * 
-     * Exemplificando, o método canActivate resolver a seguinte situação: 
+     *
+     * Exemplificando, o método canActivate resolver a seguinte situação:
      * i. Usuário se autentica;
      * ii. Usuário entra no método canLoad;
      * iii. Usuário faz logoff;

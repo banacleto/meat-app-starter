@@ -15,11 +15,11 @@ export class UserDetailComponent implements OnInit {
   ngOnInit() {
   }
 
-  user() :User {
+  user(): User {
     return this.loginService.user
   }
 
-  isLoggedIn(): boolean{
+  isLoggedIn(): boolean {
     return this.loginService.isLoggedIn()
   }
 

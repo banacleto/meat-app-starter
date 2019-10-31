@@ -1,7 +1,7 @@
-import { MenuItem } from "../menu-item/menu-item.model";
+import { MenuItem } from '../menu-item/menu-item.model';
 
 export class CarItem {
-    constructor(public menuItem: MenuItem, public quantity: number = 1) { }
+    constructor(public menuItem: MenuItem, public quantity = 1) { }
 
     value(): number {
         return this.menuItem.price * this.quantity

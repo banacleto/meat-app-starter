@@ -16,7 +16,9 @@
     "types": [],
     "typeRoots": [
       "../node_modules/@types"
-    ]
+    ],
+    "allowUnusedLabels": false,
+    "noImplicitReturns": true
   },
   "angularCompileOptions": {
     "preserveWhitespaces": false
