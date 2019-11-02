@@ -95,7 +95,11 @@ export class OrderComponent implements OnInit {
 
   // Preparando o pedido para checkout
   checkOrder(order: Order) {
-    order.orderItems = this.cartItems().map((item: CarItem) => new OrderItem(item.quantity, item.menuItem._id))
+    order.orderItems = this.cartItems().map(
+      (item: CarItem) => new OrderItem(
+        item.menuItem._id, item.menuItem.name, item.menuItem.price, item.quantity
+      )
+    )
 
     this.orderService.checkOrder(order).subscribe((orderId: string) => {
       this.orderId = orderId
